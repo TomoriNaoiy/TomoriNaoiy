@@ -77,6 +77,8 @@ S=['Aqua Jet','Shield']
 B=['Seed Bomb','Parasitic Seeds']
 
 class PROCESS():
+    def __init__(self):
+        pass
     def skill(self,name,position):
         print(f"{position}使用了{name}")
     def run(self,awa,position):
