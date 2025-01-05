@@ -50,7 +50,7 @@ for num in range(25):  # 翻页
     # 处理附件相关的内容
     for _ in range(17):
         Link.pop(0)
-
+    #蠢蛋做法 应该用切片
     for i in Link:
         url1 = f"https://jwch.fzu.edu.cn{i}"
         res2 = requests.get(url1, headers=headers)
@@ -61,6 +61,7 @@ for num in range(25):  # 翻页
             if fj[0] in ["综合科","教务处简介"]:
                 fj=[]
         fj_link = resp2.xpath('//li/a/@href')
+        print("进行爬取中ing")
         if fj_link and fj:
             url=fj_link[0]
             parsed_url=urlparse(url)
@@ -75,7 +76,7 @@ for num in range(25):  # 翻页
                 "pandomid": "nattach"
                 }
                 )
-                print(resp3.json())
+                #print(resp3.json())
                 FJN_list.append(resp3.json()['wbshowtimes'])
             except:
                 pass
