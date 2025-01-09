@@ -23,40 +23,18 @@ def dzidans():
         drenzidan.append([500,243])
         time=0
     for pppos in drenzidan:
-        if pppos[0]&lt;=0:
+        if pppos[0]<=0:
             drenzidan.remove(pppos)      
     return time
 def showdzidan():
     global wohp
     for ppos in drenzidan:
         screen.blit(dzidan,(ppos[0],ppos[1]))
-        if ppos[0]&gt;=renwu_pos[0] and ppos[0]&lt;=renwu_pos[0] and ppos[1]&gt;=renwu_pos[1] and ppos[1]&lt;=renwu_pos[1]+250:
+        if ppos[0]>=renwu_pos[0] and ppos[0]<=renwu_pos[0] and ppos[1]>=renwu_pos[1] and ppos[1]<=renwu_pos[1]+250:
             drenzidan.remove(ppos)
             wohp-=3
     for i in range(len(drenzidan)):
         drenzidan[i][0]-=10
-
-    
-
-
-    
-    
-        
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 renwu=[]
 for i in range(2):
@@ -82,38 +60,33 @@ def renwumove():
     global a
     global jump
     global canjump
-    if event.key==K_LEFT and renwu_pos[0]&gt;0:
+    if event.key==K_LEFT and renwu_pos[0]>0:
         if a==0:   
             a=1
         else:
             a=0        
         renwu_pos[0]-=20
         
-    if event.key==K_RIGHT and renwu_pos[0]&lt;800-50:
+    if event.key==K_RIGHT and renwu_pos[0]<800-50:
         renwu_pos[0]+=20
         if a==0:   
             a=1
         else:
             a=0       
-   
-
-
     
-        
-       
                  
 def zidans():
     if event.type==KEYDOWN:
         if event.key==K_s:
             zidan.append([renwu_pos[0]+50,renwu_pos[1]+10])          
     for pos in zidan:
-        if pos[0]&gt;=800:
+        if pos[0]>=800:
             zidan.remove(pos)
 def showzidan():
     global drenhp
     for pos in zidan:
         screen.blit(zidantp,(pos[0],pos[1]))
-        if pos[0]&gt;=500 and pos[0]&lt;=500 and pos[1]&gt;=230 and pos[1]&lt;=250:
+        if pos[0]>=500 and pos[0]<=500 and pos[1]>=230 and pos[1]<=250:
             zidan.remove(pos)
             drenhp-=3
     for i in range(len(zidan)):
@@ -137,7 +110,7 @@ def showzidan():
 pygame.init()  
 screen = pygame.display.set_mode((800, 600))
 
-pygame.display.set_caption("魂斗罗")
+pygame.display.set_caption("go")
 
 times = pygame.time.Clock()
 bj=pygame.image.load("bj.png")
@@ -155,14 +128,14 @@ while True:
     event = pygame.event.poll()
     screen.blit(bj,(0,0))
     renwu_pos[1]-=jump
-    if renwu_pos[1]&lt;=170:
+    if renwu_pos[1]<=170:
         jump=-jump
-    elif renwu_pos[1]&gt;=230:
+    elif renwu_pos[1]>=230:
         jump=0
         renwu_pos[1]==230
         canjump=True
     direnshow()
-    if wohp&lt;=0 or drenhp&lt;=0:
+    if wohp<=0 or drenhp<=0:
         break
             
     
@@ -198,7 +171,7 @@ while True:
     zidans()
     showzidan()
     show()
-    if renwu_pos[1]&lt;=210:
+    if renwu_pos[1]<=210:
         renwu_pos[1]+=30
     if event.type == pygame.QUIT:
             pygame.quit()
