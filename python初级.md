@@ -148,6 +148,18 @@ if a==100：
 ```
 布尔数据（Ture）（False）
 逻辑语句and
+
+### 遍历
+a=[1,2,3,4,5]
+```python
+for i in a:
+	print(i)
+#这个简单 主要讲一个重要用法
+for i,j in enumerate(a):
+	print(i,j)
+#这个方法可以同时遍历元素和索引 有时候很好用
+```
+
 ### 这个....
 按下按键为5
 -event.type==KEYDOWN：event.key== K_5
