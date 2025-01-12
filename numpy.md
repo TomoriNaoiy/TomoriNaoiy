@@ -75,6 +75,7 @@ print a  # prints "array([[11,  2,  3],
          #                [10, 21, 12]])
 ```
 **高级索引**
+1.
 ```python
 import numpy as np
 
@@ -83,6 +84,17 @@ a = np.array([[1,2], [3, 4], [5, 6]])
 
 print a[[0, 1, 2], [0, 1, 0]]  # Prints "[1 4 5]"#找到[0,0],[1,1],[2,0]
 ```
+2.列表索引
+```python
+import numpy as np
+a=list(range(3))
+aa=np.array([1,3,5,7,9])
+aa=aa[a]
+print(aa)
+#output [1 3 5]
+```
+np中的数组允许通过以列表为索引获得另一个列表 而在初级list中是不支持的
+
 ### 数组的加减
 ```python
 x = np.array([[1,2],[3,4]], dtype=np.float64)
