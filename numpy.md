@@ -206,6 +206,7 @@ X_train = np.reshape(X_train, (X_train.shape[0], -1))
 # 打印重塑后的形状
 print(X_train.shape)  # 输出 (100, 784),这里将后面几个维度的数据压缩了
 ```
+对的 你也发现了 我们可以通过print(qwq.shape)来获得一个数组的维度
 ## 广播机制
 有些复杂 我直接把cs21n里面的说法搬下来
 对两个数组使用广播机制要遵守下列规则：
