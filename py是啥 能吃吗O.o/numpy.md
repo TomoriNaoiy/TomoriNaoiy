@@ -47,6 +47,11 @@ Numpy是Python中用于科学计算的核心库。它提供了高性能的多维
   print b.shape                     # Prints "(2, 3)"
   print b[0, 0], b[0, 1], b[1, 0]   # Prints "1 2 4"
 ```
+将列表转化为数组
+```python
+np.array(list)
+```
+
 还有部分特殊用法
 ```python
 import numpy as np
@@ -260,6 +265,7 @@ print(X_train.shape)  # 输出 (100, 784),这里将后面几个维度的数据�
 ```python
  row_num=np.count_nonzero(margin > 0, axis=1)#以行为标准 计算非0的个数
 np.random.randn(dim, num_classes)#创造一个以高斯分布的数组第一个(dim,num_classes)的数组
+np.concatenate((a,b))#合并俩个数组
 ```
 
 ## 广播机制
