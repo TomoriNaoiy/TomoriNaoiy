@@ -47,6 +47,11 @@ Numpy是Python中用于科学计算的核心库。它提供了高性能的多维
   print b.shape                     # Prints "(2, 3)"
   print b[0, 0], b[0, 1], b[1, 0]   # Prints "1 2 4"
 ```
+将列表转化为数组
+```python
+np.array(list)
+```
+
 还有部分特殊用法
 ```python
 import numpy as np
@@ -100,6 +105,43 @@ print a  # prints "array([[11,  2,  3],
          #                [ 4,  5, 16],
          #                [17,  8,  9],
          #                [10, 21, 12]])
+```
+**值的舍去与保留**
+```python
+np.max()#获得数组中的最大值 可以通过axis=1来使其以行列区分
+np.maxinum()#逐元素对比 返回一个数组
+np.argmax()#获得最大值的下标 一样大以前一个为主
+np.argsort()#获得排序后的数组索引
+#**重要方法**#
+np.unique()#返回每个元素的唯一值 舍去重复值
+
+```
+这一个方法是真的有用
+```python
+import numpy as np
+
+# 创建一个包含重复元素的数组
+array = np.array([1, 2, 2, 3, 4, 4, 4, 5, 6])
+
+# 找出唯一元素
+unique_elements = np.unique(array)
+print("唯一元素:", unique_elements)
+
+# 找出唯一元素及其在原数组中第一次出现的索引
+unique_elements, indices = np.unique(array, return_index=True)
+print("唯一元素:", unique_elements)
+print("索引:", indices)
+
+# 找出唯一元素及其在原数组中的索引
+unique_elements, inverse_indices = np.unique(array, return_inverse=True)
+print("唯一元素:", unique_elements)
+print("原数组中每个元素在唯一元素数组中的索引:", inverse_indices)
+
+# 找出唯一元素及其在原数组中出现的次数
+unique_elements, counts = np.unique(array, return_counts=True)
+print("唯一元素:", unique_elements)
+print("每个唯一元素出现的次数:", counts)
+```
 ```
 **高级索引**
 1.
@@ -218,6 +260,14 @@ X_train = np.reshape(X_train, (X_train.shape[0], -1))
 print(X_train.shape)  # 输出 (100, 784),这里将后面几个维度的数据压缩了
 ```
 对的 你也发现了 我们可以通过print(qwq.shape)来获得一个数组的维度
+## 数组处理
+**计算非0数**
+```python
+ row_num=np.count_nonzero(margin > 0, axis=1)#以行为标准 计算非0的个数
+np.random.randn(dim, num_classes)#创造一个以高斯分布的数组第一个(dim,num_classes)的数组
+np.concatenate((a,b))#合并俩个数组
+```
+
 ## 广播机制
 # 非常重要（好用）
 有些复杂 我直接把cs21n里面的说法搬下来
