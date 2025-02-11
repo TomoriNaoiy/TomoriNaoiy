@@ -145,10 +145,58 @@ class CaptioningRNN:
         #                                                                          #
         # Note also that you are allowed to make use of functions from layers.py   #
         # in your implementation, if needed.                                       #
+        #TODO：实现CaptiongRNN的向前和向后传递#
+        #在前进传球中，您需要执行以下操作：#
+        #（1）使用仿射变换来计算初始隐藏状态#
+        #根据图像特征。这应该会产生一个形状数组（N，H）#
+        #（2）使用单词嵌入层来转换字幕_in中的单词#
+        #从索引到向量，给出一个形状数组（N，T，W）#
+        #（3）使用普通RNN或LSTM（取决于self.cell_type）#
+        #处理输入词向量序列并生成隐藏状态#
+        #所有时间步的向量，产生形状（N，T，H）的数组#
+        #（4）使用（时间）仿射变换来计算#
+        #在每个时间步使用隐藏状态，给出一个#
+        #形状阵列（N，T，V）#
+        #（5）使用（时间）softmax使用captions_out计算损失，忽略#
+        #使用上述掩码，输出字为<NULL>的点#
+        #                                                                          #
+        #                                                                          #
+        #不要担心规则化权重或其梯度#
+        #                                                                          #
+        #在反向传球中，你需要计算损失的梯度#
+        #关于所有模型参数。使用损失和梯度变量#
+        #如上所述，用于存储损失和梯度；毕业生[k]应该给#
+        #self.params[k]的梯度#
+        #                                                                          #
+        #另请注意，您可以使用layers.py中的函数#
+        #如果需要，在您的实现中#
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        h0,cache_h0=affine_forward(features,W_proj,b_proj)
+        word_vector,cache_word=word_embedding_forward(captions_in,W_embed)
+        if self.cell_type == "rnn":
+            h, cache_h = rnn_forward(word_vector, h0, Wx, Wh, b)
+        elif self.cell_type == "lstm":
+            h, cache_h = lstm_forward(word_vector, h0, Wx, Wh, b)
+        scores,cache_scores=temporal_affine_forward(h,W_vocab,b_vocab)
+        loss,dscores=temporal_softmax_loss(scores,captions_out,mask)
+        dh,dW_vocab,db_vocab=temporal_affine_backward(dscores,cache_scores)
+        if self.cell_type == "rnn":
+            dword_vector,dh0,dWx,dWh,db=rnn_backward(dh,cache_h)
+        elif self.cell_type == "lstm":
+            dword_vector,dh0,dWx,dWh,db=lstm_backward(dh,cache_h)
+        dW_embed=word_embedding_backward(dword_vector,cache_word)
+        dfeatures,dW_proj,db_proj=affine_backward(dh0,cache_h0)
+        grads["W_proj"]=dW_proj
+        grads["b_proj"]=db_proj
+        grads["W_embed"]=dW_embed
+        grads["Wx"]=dWx
+        grads["Wh"]=dWh
+        grads["b"]=db
+        grads["W_vocab"]=dW_vocab
+        grads["b_vocab"]=db_vocab
 
-        pass
+
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -180,6 +228,29 @@ class CaptioningRNN:
         - captions: Array of shape (N, max_length) giving sampled captions,
           where each element is an integer in the range [0, V). The first element
           of captions should be the first sampled word, not the <START> token.
+          
+对模型运行测试时间向前传递，对输入的标题进行采样
+特征向量。
+
+在每个时间步，我们嵌入当前单词，传递它和之前的隐藏单词
+状态到RNN以获取下一个隐藏状态，使用隐藏状态来获取
+对所有词汇进行评分，并选择得分最高的单词作为
+下一个词。通过应用仿射来计算初始隐藏状态
+转换为输入图像特征，初始单词是<START>
+令牌。
+
+对于LSTM，您还必须跟踪单元状态；那样的话
+初始单元状态应为零。
+
+输入：
+-features：形状（N，D）的输入图像特征数组。
+-max_length：生成字幕的最大长度T。
+
+退货：
+-captures：给出采样字幕的形状数组（N，max_length），
+其中每个元素都是[0，V）范围内的整数。第一个元素
+标题的“开始”应该是第一个采样单词，而不是<START>标记。
+
         """
         N = features.shape[0]
         captions = self._null * np.ones((N, max_length), dtype=np.int32)
@@ -215,8 +286,22 @@ class CaptioningRNN:
         # you are using an LSTM, initialize the first cell state to zeros.        #
         ###########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        h0,_=affine_forward(features,W_proj,b_proj)
+        word_vector = np.full((N,), self._start, dtype=np.int32)
+        c = np.zeros_like(h0)
+        next_h=h0
+        for i in range(max_length):
+          word_vector,_=word_embedding_forward(word_vector,W_embed)
+          if self.cell_type == "rnn":
+            next_h,_=rnn_step_forward(word_vector,next_h,Wx,Wh,b)
+          elif self.cell_type == "lstm":
+            next_h,c,_=lstm_step_forward(word_vector,next_h,c,Wx,Wh,b)
+          scores,_=affine_forward(next_h,W_vocab,b_vocab)
+          word_vector=np.argmax(scores,axis=1)
+          captions[:,i]=word_vector
 
-        pass
+            
+        
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################

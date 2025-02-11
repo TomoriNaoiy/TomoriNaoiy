@@ -64,6 +64,22 @@ def rnn_step_forward(x, prev_h, Wx, Wh, b):
     Returns a tuple of:
     - next_h: Next hidden state, of shape (N, H)
     - cache: Tuple of values needed for the backward pass.
+    使用tanh激活函数运行vanilla RNN的单个时间步的正向传递。
+
+输入数据具有维度D、隐藏状态具有维度H，
+并且小批量的大小为N。
+
+输入：
+-x：此时间步的输入数据，形状为（N，D）
+-prev_h：前一时间步的隐藏状态，形状为（N，h）
+-Wx：隐藏连接输入的权重矩阵，形状为（D，H）
+-Wh：隐藏到隐藏连接的权重矩阵，形状为（H，H）
+-b：形状偏差（H，）
+
+返回一个元组：
+-next_h：形状为（N，h）的下一个隐藏状态
+-cache：反向传递所需的值元组。
+
     """
     next_h, cache = None, None
     ##############################################################################
@@ -72,8 +88,10 @@ def rnn_step_forward(x, prev_h, Wx, Wh, b):
     # and cache variables respectively.                                          #
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    next_h=x.dot(Wx)+prev_h.dot(Wh)+b
+    next_h=np.tanh(next_h)
+    cache=(x,prev_h,Wx,Wh,b,next_h)
+    
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -104,8 +122,18 @@ def rnn_step_backward(dnext_h, cache):
     # of the output value from tanh.                                             #
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    
+    x, prev_h, Wx, Wh, b, next_h = cache
+    dnext_h=dnext_h*(1-next_h**2)
+    dx=dnext_h.dot(Wx.T)
+    dprev_h=dnext_h.dot(Wh.T)
+    dWx=x.T.dot(dnext_h)
+    dWh=prev_h.T.dot(dnext_h)
+    db=np.sum(dnext_h,axis=0)
 
-    pass
+
+  
+    
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -139,9 +167,18 @@ def rnn_forward(x, h0, Wx, Wh, b):
     # above. You can use a for loop to help compute the forward pass.            #
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
-
+    N,T,D=x.shape
+    N,H=h0.shape
+    h=np.zeros((N,T,H))
+    cache=[]
+    for i in range(T):
+        if i==0:
+            h[:,i,:],cache_i=rnn_step_forward(x[:,i,:],h0,Wx,Wh,b)
+        else:
+            h[:,i,:],cache_i=rnn_step_forward(x[:,i,:],h[:,i-1,:],Wx,Wh,b)
+        cache.append(cache_i)
+    cache=tuple(cache)
+        
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
     #                               END OF YOUR CODE                             #
@@ -166,6 +203,22 @@ def rnn_backward(dh, cache):
     - dWx: Gradient of input-to-hidden weights, of shape (D, H)
     - dWh: Gradient of hidden-to-hidden weights, of shape (H, H)
     - db: Gradient of biases, of shape (H,)
+    在整个数据序列上计算vanilla RNN的向后传递。
+
+输入：
+-dh：所有隐藏状态的上游梯度，形状为（N，T，H）
+    
+注：“dh”包含由
+每个时间步长的单个损失函数，而不是梯度
+在时间步长之间传递（你必须自己计算
+通过在循环中调用rnn_step_backward）。
+
+返回一个元组：
+-dx：形状（N、T、D）的输入梯度
+-dh0：初始隐藏状态的梯度，形状为（N，H）
+-dWx：输入到隐藏权重的梯度，形状为（D，H）
+-dWh：隐藏权重到隐藏权重的梯度，形状为（H，H）
+-db：形状（H，）的偏差梯度
     """
     dx, dh0, dWx, dWh, db = None, None, None, None, None
     ##############################################################################
@@ -174,9 +227,22 @@ def rnn_backward(dh, cache):
     # defined above. You can use a for loop to help compute the backward pass.   #
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
-
+    x,prev_h,Wx,Wh,b,next_h=cache[0]
+    N,T,H=dh.shape
+    D,_=Wx.shape
+    dx=np.zeros((N,T,D))
+    dh0=np.zeros((N,H))
+    dWx=np.zeros((D,H))
+    dWh=np.zeros((H,H))
+    db=np.zeros((H,))
+    dprev_h=0
+    for i in range(T-1,-1,-1):
+         dx[:,i,:], dprev_h_i, dWx_i, dWh_i, db_i=rnn_step_backward(dh[:,i,:]+dprev_h,cache[i])
+         dprev_h=dprev_h_i
+         dWx+=dWx_i
+         dWh+=dWh_i
+         db+=db_i
+    dh0=dprev_h
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
     #                               END OF YOUR CODE                             #
@@ -199,7 +265,22 @@ def word_embedding_forward(x, W):
     Returns a tuple of:
     - out: Array of shape (N, T, D) giving word vectors for all input words.
     - cache: Values needed for the backward pass
-    """
+    单词嵌入的前向传递。
+    
+我们生产N型的小批量产品，其中
+每个序列都有长度T。我们假设一个V个单词的词汇表，为每个单词分配
+将单词转换为D维向量。
+
+输入：
+-x：给出单词索引的形状（N，T）的整数数组。每个元素idx
+x muxt的值应在0<=idx<V的范围内。
+-W：形状（V，D）的权重矩阵，给出所有单词的单词向量。
+
+返回一个元组：
+-out：形状数组（N，T，D），给出所有输入单词的单词向量。
+-cache：向后传递所需的值
+"""
+    
     out, cache = None, None
     ##############################################################################
     # TODO: Implement the forward pass for word embeddings.                      #
@@ -208,7 +289,8 @@ def word_embedding_forward(x, W):
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    out=W[x]
+    cache=(x,W)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -238,11 +320,35 @@ def word_embedding_backward(dout, cache):
     # TODO: Implement the backward pass for word embeddings.                     #
     #                                                                            #
     # Note that words can appear more than once in a sequence.                   #
-    # HINT: Look up the function np.add.at                                       #
+    # HINT: Look up the function np.add.at   
+    # 
+    """                                    #
+    单词嵌入的向后传递。
+    
+我们不能在文字中反向传播
+因为它们是整数，所以我们只返回单词嵌入的梯度
+矩阵。
+
+提示：查找函数np.add.at
+
+输入：
+-dout：上游形状梯度（N、T、D）
+-cache：前向传递的值
+
+退货：
+-dW：形状为（V，D）的单词嵌入矩阵的梯度
+"""
+
+##############################################################################
+#TODO：实现单词嵌入的向后传递#
+#                                                                            #
+#请注意，单词在一个序列中可以出现多次#
+#提示：查找函数np.add.at#
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    x,W=cache
+    dW=np.zeros_like(W)
+    np.add.at(dW,x,dout)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################

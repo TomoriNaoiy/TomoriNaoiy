@@ -29,6 +29,26 @@ class CaptioningTransformer(nn.Module):
         - num_heads: Number of attention heads.
         - num_layers: Number of transformer layers.
         - max_length: Max possible sequence length.
+        
+CaptioningTransformer使用
+变压器解码器。
+
+Transformer接收大小为D的输入向量，
+处理长度为T的序列，使用维度为W的词向量，以及
+对N尺寸的小批量进行操作。
+
+
+构造一个新的CaptioningTransformer实例。
+
+输入：
+-word_to_idx：提供词汇的词典。它包含V条目。
+并将每个字符串映射到[0，V）范围内的唯一整数。
+-input_dim：输入图像特征向量的维度D。
+-wordvec_dim：单词向量的维度W。
+-num_heads：关注头的数量。
+-num_layers：变压器层数。
+-max_length：最大可能的序列长度。
+
         """
         super().__init__()
 
@@ -87,10 +107,25 @@ class CaptioningTransformer(nn.Module):
         #     this mask.                                                           #
         #  3) Finally, apply the decoder features on the text & image embeddings   #
         #     along with the tgt_mask. Project the output to scores per token      #
+        #TODO:实现CaptionTransformer的转发功能#
+            #一些提示：#
+            #1）您首先必须嵌入标题并添加位置#
+            #编码。然后，您必须将图像特征投影到相同的#
+            #尺寸#
+            #2）你必须准备一个掩码（tgt_mask）来屏蔽未来#
+            #字幕中的时间步长。torch.tril（）函数可能有助于准备#
+            #这个面具#
+            #3）最后，将解码器特征应用于文本和图像嵌入#
+            #以及tgt掩码。将输出预测为每个令牌的分数#
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
+        captions=self.embedding(captions)
+        captions=self.positional_encoding(captions)
+        features=self.visual_projection(features).unsqueeze(1)
+        tgt_mask=torch.tril(torch.ones(T,T))
+        scores=self.transformer(captions,features,tgt_mask)
+        scores=self.output(scores)
+        
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
