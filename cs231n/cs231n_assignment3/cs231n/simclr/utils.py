@@ -21,6 +21,20 @@ def train(model, data_loader, train_optimizer, epoch, epochs, batch_size=32, tem
 
     Returns:
     - The average loss.
+    用一个epoch训练./model.py中定义的模型。
+    
+    输入：
+    -model：中定义的模型类对象/model.py。
+    -data_loader：torch.utils.data。DataLoader对象；加载训练数据。您可以假设加载的数据已被增强。
+    -train_optimizer：torch.optim。优化器对象；将优化器应用于训练。
+    -epoch：整数；当前历元编号。
+    -epochs：整数；纪元总数。
+    -batch_size：每批训练样本的数量。
+    -温度：浮子；simclr_loss矢量化中使用的温度（tau）参数。
+    -device：用于定义torch张量的设备名称。
+
+    退货：
+    -平均损失。
     """
     model.train()
     total_loss, total_num, train_bar = 0.0, 0, tqdm(data_loader)
@@ -35,13 +49,23 @@ def train(model, data_loader, train_optimizer, epoch, epochs, batch_size=32, tem
         # Take a look at the model.py file to understand the model's input and output.
         # Run x_i and x_j through the model to get out_left, out_right.              #
         # Then compute the loss using simclr_loss_vectorized.                        #
+        #TODO:代码的开始#
+        #                                                                            #
+        #查看model.py文件以了解模型的输入和输出。
+        #在模型中运行x_i和x_j以获得out_left和out_right#
+        #然后使用simclr_loss_vectorized计算损失#
         ##############################################################################
         
-        
+       
         ##############################################################################
         #                               END OF YOUR CODE                             #
         ##############################################################################
-        
+        out_left, out_right = model(x_i), model(x_j)
+        if isinstance(out_left, tuple):
+            out_left = out_left[0]
+        if isinstance(out_right, tuple):
+            out_right = out_right[0]
+        loss = simclr_loss_vectorized(out_left, out_right, temperature)
         train_optimizer.zero_grad()
         loss.backward()
         train_optimizer.step()

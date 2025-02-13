@@ -396,8 +396,18 @@ def lstm_step_forward(x, prev_h, prev_c, Wx, Wh, b):
     # You may want to use the numerically stable sigmoid implementation above.  #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    next_h=np.zeros_like(prev_h)
+    next_c=np.zeros_like(prev_c)
+    a=x.dot(Wx)+prev_h.dot(Wh)+b
+    ai,af,ao,ag=np.split(a,4,axis=1)
+    i=sigmoid(ai)
+    f=sigmoid(af)
+    o=sigmoid(ao)
+    g=np.tanh(ag)
+    next_c=f*prev_c+i*g
+    next_h=o*np.tanh(next_c)
+    cache=(x,prev_h,prev_c,Wx,Wh,b,next_h,next_c,a,i,f,o,g)
+    
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -431,8 +441,21 @@ def lstm_step_backward(dnext_h, dnext_c, cache):
     # the output value from the nonlinearity.                                   #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    (x,prev_h,prev_c,Wx,Wh,b,next_h,next_c,a,i,f,o,g)=cache
+    dnext_c+=dnext_h*o*(1-np.tanh(next_c)**2)
+    dprev_c=dnext_c*f
+    dai=dnext_c*g*i*(1-i)
+    daf=dnext_c*prev_c*f*(1-f)
+    dao=dnext_h*np.tanh(next_c)*o*(1-o)
+    dag=dnext_c*i*(1-g**2)
+    da=np.concatenate((dai,daf,dao,dag),axis=1)
+    dx=da.dot(Wx.T)
+    dprev_h=da.dot(Wh.T)
+    dWx=x.T.dot(da)
+    dWh=prev_h.T.dot(da)
+    db=np.sum(da,axis=0)
+   
 
-    pass
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -463,6 +486,26 @@ def lstm_forward(x, h0, Wx, Wh, b):
     Returns a tuple of:
     - h: Hidden states for all timesteps of all sequences, of shape (N, T, H)
     - cache: Values needed for the backward pass.
+    LSTM在整个数据序列上的前向传递。
+    
+        我们假设输入序列由T个向量组成，每个向量的维数为D。LSTM使用一个隐藏的
+        我们在包含N个序列的小批量上工作。在向前运行LSTM之后，
+        我们返回所有时间步的隐藏状态。
+
+        请注意，初始单元格状态作为输入传递，但初始单元格状态设置为零。
+        还要注意，不会返回单元状态；它是LSTM的内部变量，不是
+        从外面进入。
+
+        输入：
+        -x：形状（N、T、D）的输入数据
+        -h0：形状的初始隐藏状态（N，H）
+        -Wx：形状为（D，4H）的隐藏连接的输入权重
+        -Wh：形状为（H，4H）的隐藏到隐藏连接的权重
+        -b：形状偏差（4H，）
+
+        返回一个元组：
+        -h：所有序列的所有时间步的隐藏状态，形状为（N，T，h）
+        -cache：向后传递所需的值。
     """
     h, cache = None, None
     #############################################################################
@@ -470,8 +513,18 @@ def lstm_forward(x, h0, Wx, Wh, b):
     # You should use the lstm_step_forward function that you just defined.      #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    N,T,D=x.shape
+    N,H=h0.shape
+    h=np.zeros((N,T,H))
+    cache=[]
+    c=np.zeros((N,H))
+    prev_h=h0
+    prev_c=c
+    for t in range(T):
+        prev_h,prev_c,cache_t=lstm_step_forward(x[:,t,:],prev_h,prev_c,Wx,Wh,b)
+        h[:,t,:]=prev_h
+        cache.append(cache_t)
+       
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -501,8 +554,24 @@ def lstm_backward(dh, cache):
     # You should use the lstm_step_backward function that you just defined.     #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    (x,prev_h,prev_c,Wx,Wh,b,next_h,next_c,a,i,f,o,g)=cache[0]
+    N,T,H=dh.shape
+    D,_=Wx.shape
+    dx=np.zeros((N,T,D))
+    dh0=np.zeros((N,H))
+    dWx=np.zeros((D,4*H))
+    dWh=np.zeros((H,4*H))
+    db=np.zeros((4*H,))
+    dprev_h=0
+    dprev_c=0
+    for t in range(T-1,-1,-1):
+        dx[:,t,:],dprev_h,dprev_c,dWx_t,dWh_t,db_t=lstm_step_backward(dh[:,t,:]+dprev_h,dprev_c,cache[t])
+        dWx+=dWx_t
+        dWh+=dWh_t
+        db+=db_t
+    dh0=dprev_h
 
-    pass
+    
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
