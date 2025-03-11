@@ -416,6 +416,183 @@ return None
 - a=int(a,2(后面是标注几进制 转化为10进制))
 - strip（）去掉换行符
 
+========================================我是分界线=====================================================
+底下就是大一后的笔记了 深度明显增加 有部分重复 可取舍
+该笔记为对list lanmda re等语句的认识 谨代表本人的一些简陋认识 附带一些举例语句
+============
+
+
+### List，Dict
+
+list为列表 list=[]
+
+- 可以通过append（） pop（）等方法进行增加和减少
+- insert（）进行插入 
+- index（）直接获得元素
+- （pop（index（a））） remove（）删除指定值
+
+* Dict为字典 dict={}（键值对 a：b，c“d） keys（）
+- 以通过输入键从而获得值
+- keys（）获得所有键 
+- items获得所有键值对 
+- values（）获得所有值
+
+# lambda
+ 将函数使用一行代码表示 带有输入值 输出值（表达式）
+```python
+f=lambda x: x*x
+print(f(5))
+#进阶用法
+dict=[[lambda x,y:x+1,y],
+[lambda x,y:x,y+1]，
+[lambda x,y:x-1,y]，
+[lambda x,y:x,y-1]】
+
+```
+* :.4保留4位小数 *
+# Decorator（装饰器）
+eg:
+```python
+def pd(func):
+	def pn():#需要调用的函数
+	    t1=time.time()
+	    num=func()
+	    t2=time.time()
+	    return num
+    return pn
+```
+
+
+
+
+调用时
+```python
+@pd
+def p():
+	for i in range():
+		if a:
+			print(a)
+		a+=1
+	return a
+```
+运行p（）时 实际运行@pd
+
+# class 魔法方法
+calss  定义类
+```python
+eg:
+calss APG：
+	def _init_(self,name):
+		self.name=name
+	def o(self):
+		()=()
+A=APG（）
+#调用时
+A.o();
+```
+魔法方法
+-init-(self)
+`self.a=a`
+编译器会自动运行上方法 在该类中的所有函数都可以调用这个值(类似于c++语言里面的类的public)
+还有-str-等魔法方法
+(*arg可以用在不知到需要用到多少个属性的时候)
+
+# re正则表达式 
+~~根本不好用 仅仅在部分情况 数据及其对称的很有优势 之后学习beautifulsoup和xpath之后就会发现这玩意...~~
+* 多用于爬虫
+```python
+import re  
+a=re.compile(r"")
+```
+此时a是列表
+a.findall(变量)
+.表示要匹配除了换行符之外的任何单个字符
+eg：
+ 1是黑色
+ 2是白色
+ 3是粉色
+ 4是绿色
+ - .色 获得的就是黑色/绿色....
+ - * 表示出现任意次数包括0次
+eg
+1，是黑色
+2，是白色
+3，是粉色
+4，是绿色
+要获得，后面的文本
+写,.*
+
+- +同上 但不包括0次
+
+- ？ 1次或0次
+
+- {}指定次数 如{3，4}3~4次
+
+- \d  表数字 
+- \D 表示一个不是0-9的数字字符
+- \s空白字符 空格 tab 换行符等 
+- \S非空白字符 
+- \w文字字符 
+- \W 任意非文字字符
+* 贪婪模式
+在使用*+？时 他们会尽可能匹配多个
+因此需要将其分离时 使用.*?
+
+需要获得的字符串中含有.时 用到转义字符\
+eg:
+苹果.绿色
+西瓜.黑色
+菠萝.白色
+.*\.
+可获得苹果....
+
+获得这一项可能出现几个有效字符
+eg:
+13500344
+1b213121
+15231312
+10111111
+则1[3-7]\d{9}(注：.在中括号里面单纯就是.)
+使用^则是非的意思
+
+（）  （里面是需要的）（）外面的是匹配的
+
+# 列表推导式
+正常写法
+```python
+a=[]
+for x in range(0,10):
+	a.append(x)
+```
+推导式
+`a=[x for x in  range(0,10)]`
+最开始的x相当于变量 可以进行符号运算range后面可以加判断
+eg` a=[x for x in range(0,10) if x%10==0]`
+# generator生成器
+eg
+```python
+nums=[1,2,3,4,5]
+def a(nums):
+for i in nums:
+	yield (i*i)
+(不需要return)
+b=a(nums)
+for c in b:
+print(c)
+```
+# oop面对对象编程
+能够减少属性 使编程逻辑更清晰 （其实就是类和对象）
+# type hint类型注释
+减少由于类型而引起的错误
+def f(a:int,b:int) -> int
+可以使用mypy进行检测
+
+
+
+
+
+
+
 
 
 
