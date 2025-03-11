@@ -10,8 +10,14 @@ a=input（".....")
 print(a)
 ```
 第一行输入一个数n 在后面3行输入n个数用空格隔开
+```
 n=int(input())
 num=list(map(int,input().strip().split()))
+```
+strip() 移除字符串开头和结尾的指定字符
+
+如果不传递任何参数，strip() 会移除字符串开头和结尾的空白字符（包括空格、制表符 \t、换行符 \n 等）。
+
 - end=末尾 默认为换行符 可以改成，
 - sep=间隔符 默认空格 可以改成，
 __________________________________________________________________________________________
@@ -50,12 +56,30 @@ ________________________________________________________________________________
 ----------------------------------------------------------------------------------------------
 字符串类型string（简称；str）
 a='255'  a=input()
+**注意**字符串是不能改变的 也就是以及创建好的字符串 你不能通过a[0]=xxx来强行改变
 
+那么如何修改呢？
+使用字符串方法：
 
+字符串提供了许多方法（如replace()、upper()、lower()等），这些方法会返回一个新的字符串，而不是修改原字符串。
+
+```
+s = "hello"
+s = s.replace("e", "a")  # 将'e'替换为'a'
+print(s)  # 输出 "hallo"
+```
+也可以先转化成列表 修改完后再转回来
+```
+s = "hello"
+s_list = list(s)
+s_list[1] = "a"  # 修改第二个字符
+s = "".join(s_list)  # 转换回字符串
+print(s)  # 输出 "halo"
+```
 
 - 整数类型integer（简称；int）
 - a=255
-- （备注：整数和字符串无法进行运算）
+- （备注：整数和字符串无法进行运算(加减)）
 - 浮点数类型；a=15.0
 float
 - 整数+浮点数=浮点数
@@ -137,7 +161,9 @@ b=b-1
 - len(a)
 - 获得字符串的ascii值（键值）
 - ord（a)
+- 将ascii转化成字母 chr（）
 ```
+
 a=（“输入你想要的内容”）
 for i in range（len（a））
 	print（ord（a【i】）
@@ -168,6 +194,10 @@ for i,j in enumerate(a):
 -if else
 -如果第一个不成功，则第二个一定成功
 # 列表
+列表推导式 [x for x in range(10) if x%2 == 0]
+
+第一个是填充的部分 后面是循环和判断
+
 list（列表）（可以放多个东西的变量）z
 -such as a=['1','2','3'](中间用逗号隔开)
 -a.append（1）为这个列表放入1
@@ -191,6 +221,14 @@ remove(元素)
 reverse()倒置列表
 .sort()不写 默认从小到大 若sort(reverse=True)则从大到小
 sorted()函数 可以对任何形式排序
+
+实用方法
+
+sort()
+
+对列表排序 list.sort()
+
+key=lambda x:x=...根据什么数值排序
 ```
 
 ### 好了 又是以前最喜欢的动画模块 现在用的倒是不多 以后可能会用到？（
@@ -330,12 +368,22 @@ cc：{kk：4
 - input
 - num-list=list(map(int,input().split()))
 - abs()绝对值
+- print ("{:.}".format(a))**注意 写再print里面**
+```
+name = "Alice"
+age = 25
+print("My name is {} and I am {} years old.".format(name, age))
+print("My name is {name} and I am {age} years old.".format(name="Alice", age=25))
+print("My name is {1} and I am {0} years old.".format(age, name))
+```
+**这样可以写多个**
 ----------------------------
-实用方法
-sort()
-对列表排序 list.sort()
-reverse=True 可以倒叙
-key=lambda x:x=...
+既然提到format 那么更好用的f方法当然不能漏掉
+```
+name = "Alice"
+age = 25
+print(f"My name is {name} and I am {age} years old.")
+```
 
 
 
