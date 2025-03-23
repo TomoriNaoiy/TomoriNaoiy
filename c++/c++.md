@@ -55,6 +55,7 @@ class node {
 public:
     int num;
     node(int N) :num(N) {}//初始化
+    //也可以写成 node(int N){num=N;}//注意 要写分号不是逗号
     int sum()//无需参数
     {
         return num * 2;
