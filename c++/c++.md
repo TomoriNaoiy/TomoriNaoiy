@@ -86,7 +86,9 @@ void stdu::print()
 {
 balabal
 }
+```
 ### 析构函数 在删除的时候调用 并且如果不写delete的话 后建立的会先删除 也就是先调用苟晞函数
+
 ```c++
 class Student{
     int rank;
@@ -107,6 +109,7 @@ Student *pS[SIZE]
         pS[count++]= new Student(name, rank);
 ```
 ### 类中的静态变量 
+```c++
 class aa
 {
 public:
