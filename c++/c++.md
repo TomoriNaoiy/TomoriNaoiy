@@ -74,6 +74,114 @@ int main()
 2. 注意 初始化时 冒号后面是类里面的变量（零时变量）＋{} 这段话的意思是 将传入node参数的N 作为num
 3. 成员函数 不需要再给参数 直接使用类里面的数
 4. 调用时 创建对象时要给参数 调用函数用。 并且函数要加（）但不给参数
+## 一些奇巧淫技
+在类里面定义函数 在外面构造
+```c++
+class stdu
+{
+public:
+    void print();
+};
+void stdu::print()
+{
+balabal
+}
+### 析构函数 在删除的时候调用 并且如果不写delete的话 后建立的会先删除 也就是先调用苟晞函数
+```c++
+class Student{
+    int rank;
+    string name;
+    public:
+        int getRank(){return rank;    }
+        Student(string name, int rank):name(name), rank(rank){    }
+        ~Student(){ cout<<name<<endl;}
+};
+Student a(1,"aaa")
+delete a;
+```
+当然这里面还蕴藏了类的数组的构造
+```
+Student *pS[SIZE]
+ while(count<SIZE && rank>0){
+        cin>>name;
+        pS[count++]= new Student(name, rank);
+```
+### 类中的静态变量 
+class aa
+{
+public:
+stastic int c;
+int a
+aa(int a):a(a){c++}
+}；
+int aa::c=0;
+int main()
+{
+cout<<aa::c;
+}
+```
+这里就是静态变量 可以用作计数 每次创建对象的时候给c+1 用作计数 后面调用的时候要aa：：c 并且要声明
+### const
+常变量的设置
+
+在类里面
+```
+class a
+{
+int plus(int a) const
+{
+balaba;
+}
+int plus(int a) 
+{
+balaba;
+}
+}
+//然后调用的时候 使用const定义 就会只调用对应类里面的常成员函数
+const a hahah；
+a ahaaha;
+hahah.plus();
+ahaaha.plus();
+```
+### this
+这个很好理解 就是pyhton里面的self
+```c++
+class a
+{
+public:
+int my;
+void set(int my)
+{
+this->my=my
+}
+};
+
+// 返回当前对象
+class Student {
+    int age;
+public:
+    Student& setAge(int age) {
+        this->age = age;
+        return *this; // 返回当前对象
+    }
+};
+//访问成员函数
+class Student {
+public:
+    void print() {
+        cout << "Student" << endl;
+    }
+    void display() {
+        this->print(); // 调用当前对象的成员函数
+    }
+};
+```
+
+
+
+
+
+
 
 **~~好啦 你已经会使用类了 快去写链表把~~**
 # 链表
