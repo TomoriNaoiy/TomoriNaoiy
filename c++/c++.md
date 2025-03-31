@@ -179,6 +179,33 @@ public:
     }
 };
 ```
+### other
+只是一个习惯用法 用于获得赋值的对象里面的东西
+```c++
+class MyClass {
+public:
+    int* data;
+
+    // 默认构造函数
+    MyClass() {
+        data = new int[5];
+    }
+
+    // 复制构造函数（深拷贝）
+    MyClass(const MyClass& other) {
+        data = new int[5]; // 分配新内存
+        for (int i = 0; i < 5; i++) {
+            data[i] = other.data[i]; // 复制数据
+        }
+    }
+
+    // 析构函数
+    ~MyClass() {
+        delete[] data;
+    }
+};
+```
+
 
 
 
