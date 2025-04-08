@@ -205,8 +205,45 @@ public:
     }
 };
 ```
+### 友元函数
+friend修饰别的类
 
+友元类可以声明在类中任意位置。friend class 类名
 
+声明友元类之后，友元类中的所有成员函数都是该类的友元函数，能够访问该类的所有成员。
+
+friend修饰成员函数
+
+友元成员函数声明语法：friend 函数返回值类型 类名::函数名();
+
+注意定义的先后，建议在前面进行声明，后面进行函数的同一定义，防止出现问题。
+
+friend修饰类外定义的函数
+
+将类外部的普通函数作为类的友元函数，在类中使用friend关键字声明该普通函数就可以实现，友元函数可以在类中任意位置声明。
+
+普通函数作为友元函数的声明形式如下所示： friend 函数返回值类型 友元函数名（形参列表）
+
+### 重载类
+template<class T>
+class a
+{
+public:
+T num;
+T *data
+//T data【100】也行
+a(int num)
+{this->num=num;
+data=new T[100;]}
+}
+
+如果在类外面进行定义 需要每一行都加一个重载运算符
+```c
+template <typename T>
+Square<T>::Square(T width){m_width=width;}//这里在类外面进行定义构造函数
+template <typename T>
+T Square<T>::getArea() const {return m_width*m_width;}
+```
 
 
 
