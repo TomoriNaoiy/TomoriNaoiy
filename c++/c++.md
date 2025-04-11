@@ -225,6 +225,7 @@ friend修饰类外定义的函数
 普通函数作为友元函数的声明形式如下所示： friend 函数返回值类型 友元函数名（形参列表）
 
 ### 重载类
+```
 template<class T>
 class a
 {
@@ -236,7 +237,7 @@ a(int num)
 {this->num=num;
 data=new T[100;]}
 }
-
+```
 如果在类外面进行定义 需要每一行都加一个重载运算符
 ```c
 template <typename T>
@@ -244,12 +245,149 @@ Square<T>::Square(T width){m_width=width;}//这里在类外面进行定义构造
 template <typename T>
 T Square<T>::getArea() const {return m_width*m_width;}
 ```
+### 类的继承
+public继承：
 
+- 父类的public成员在子类中仍然是public。
+- 父类的protected成员在子类中仍然是protected。
+- 父类的private成员在子类中不可访问。
+```c++
+class Parent {
+public:
+    int publicVar;
+protected:
+    int protectedVar;
+private:
+    int privateVar;
+};
 
+class Child : public Parent {
+public:
+    void accessParent() {
+        publicVar = 10;      // 可以访问
+        protectedVar = 20;   // 可以访问
+        // privateVar = 30;  // 错误：不可访问
+    }
+};
+```
+protected继承：
 
+父类的public和protected成员在子类中都变为protected。
+父类的private成员在子类中不可访问。
+```c++
+class Child : protected Parent {
+public:
+    void accessParent() {
+        publicVar = 10;      // 可以访问，但变为protected
+        protectedVar = 20;   // 可以访问
+        // privateVar = 30;  // 错误：不可访问
+    }
+};
+```
+private继承：
 
+父类的public和protected成员在子类中都变为private。
+父类的private成员在子类中不可访问。
+```c++
+class Child : private Parent {
+public:
+    void accessParent() {
+        publicVar = 10;      // 可以访问，但变为private
+        protectedVar = 20;   // 可以访问，但变为private
+        // privateVar = 30;  // 错误：不可访问
+    }
+};
+```
+### 重写函数
+```c++
+class Parent {
+public:
+    virtual void show() {
+        cout << "Parent Show" << endl;
+    }
+};
 
+class Child : public Parent {
+public:
+    void show() override {
+        cout << "Child Show" << endl;
+    }
+};
 
+int main() {
+    Parent* ptr = new Child();
+    ptr->show();  // 输出：Child Show
+    delete ptr;
+    return 0;
+}
+```
+例子
+```c++
+#include <iostream>
+using namespace std;
+
+// 基类
+class Animal {
+public:
+    Animal(string name) : name(name) {
+        cout << "Animal constructor called for " << name << endl;
+    }
+
+    virtual ~Animal() {
+        cout << "Animal destructor called for " << name << endl;
+    }
+
+    virtual void makeSound() {
+        cout << name << " makes a generic animal sound." << endl;
+    }
+
+    void sleep() {
+        cout << name << " is sleeping." << endl;
+    }
+
+protected:
+    string name;
+};
+
+// 派生类
+class Dog : public Animal {
+public:
+    Dog(string name) : Animal(name) {
+        cout << "Dog constructor called for " << name << endl;
+    }
+
+    ~Dog() {
+        cout << "Dog destructor called for " << name << endl;
+    }
+
+    void makeSound() override {
+        cout << name << " barks: Woof! Woof!" << endl;
+    }
+
+    void fetch() {
+        cout << name << " is fetching the ball." << endl;
+    }
+};
+
+int main() {
+    // 创建基类对象
+    Animal* genericAnimal = new Animal("Generic Animal");
+    genericAnimal->makeSound();
+    genericAnimal->sleep();
+    delete genericAnimal;
+
+    cout << endl;
+
+    // 创建派生类对象
+    Dog* myDog = new Dog("Buddy");
+    myDog->makeSound();  // 调用重写的函数
+    myDog->sleep();      // 调用继承自基类的函数
+    myDog->fetch();      // 调用派生类特有的函数
+    delete myDog;
+
+    return 0;
+}
+```
 **~~好啦 你已经会使用类了 快去写链表把~~**
 # 链表
 话不多说 直接开始链表
