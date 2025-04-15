@@ -388,6 +388,31 @@ int main() {
     return 0;
 }
 ```
+### 一些注意
+继承的时候 
+```c++
+class basic
+{public:
+int a;
+
+int b;
+basic(int a,int b):a(a),b(b){}
+};
+class ps :public basic
+{
+public:
+int c;
+ps(int a,int b,int c):basic(a,b),c(c)
+{//或者 this->c=c；}
+};
+class ps2 :public ps2
+{
+public :
+int x;
+ps2(int a,intb,int c,int d):ps2(a,b,c),x(d){}
+};
+
+```
 **~~好啦 你已经会使用类了 快去写链表把~~**
 # 链表
 话不多说 直接开始链表
