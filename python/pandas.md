@@ -21,13 +21,8 @@ append（)....
 
 接下来是数据写入
 ```python
-ls = ['中国'
-,
-'美国'
-,
-'日本']
-f = open(fname,
-'w')
+ls = ['中国','美国','日本']
+f = open(fname,'w')
 f.write('$'.join(ls))
 f.close()
 ```
@@ -45,6 +40,8 @@ join 一个常用的列表操作（不止
 
 a=['wo','shi','da','mo','wang']
 print(" ".join(a))通过“” 把可迭代对象a里面的元素通过“ ”连接
+```
+下面则是一些进阶·
 ```python
 with open(文件名，读写模式。编码格式，行行之间是否有空行)as 文件变量:
 #省的使用f.close() 但要记得缩进
