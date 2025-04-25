@@ -299,6 +299,13 @@ public:
 };
 ```
 ### 重写函数
+为什么不在继承函数里面直接使用呢 因为如果我们后面使用数据存储类 使用
+
+parent *p[10];
+那么这里都是以parent基类的数组 里面默认是以parent为基类 
+
+那么我们使用parent[i]->display() 必须在基类函数里面有虚函数 因此我们需要在基函数里面定义virtual void display（...）=0；
+
 ```c++
 class Parent {
 public:
@@ -412,6 +419,34 @@ int x;
 ps2(int a,intb,int c,int d):ps2(a,b,c),x(d){}
 };
 
+```
+### 重载运算符
+
+没啥特别的 就感觉是一个以运算符命名的函数 记得写operator就得了
+
+```c++
+#include <iostream>
+using namespace std;
+
+class Point {
+public:
+    int x, y;
+
+    Point(int x = 0, int y = 0) : x(x), y(y) {}
+
+    // 重载 + 运算符（成员函数形式）
+    Point operator+(const Point& other) const {
+        return Point(x + other.x, y + other.y);
+    }//不一定要Point void也行 但是不符合正常的写法（虽然我本来就不正常
+};
+
+int main() {
+    Point p1(1, 2);
+    Point p2(3, 4);
+    Point p3 = p1 + p2; // 使用重载的 + 运算符
+    cout << "p3.x = " << p3.x << ", p3.y = " << p3.y << endl;
+    return 0;
+}
 ```
 **~~好啦 你已经会使用类了 快去写链表把~~**
 # 链表
