@@ -405,8 +405,10 @@ new则是分配内存的同时调用构造函数 （也就是说 给的值不是
 ```c++
 point *p= new P1(a)
 int* p = new int[10];
-point p1[5];
+point* p1[5];
 p1[0]=new P1(a)//或者这样
+不能写出 point p1[5];
+p1[i]=new point(a);
 ```
 
 而new创建的空间 只能使用delete[] p删除
