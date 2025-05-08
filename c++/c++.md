@@ -588,6 +588,11 @@ int main()
 2. 小数位数保留#include<iomanip> cout<<fixed<<setprecision(x)<<;
 3. 万能头文件<bits/stdc++.h>
 4. 函数重载是template <typename T> 类是class T 而且写在外面的话没行都要写一个
+5. 类外定义的时候 要写point<T>::def... T point<T>::def...
+6. const和override写在（）后面 {}前面
+7. 函数记得写（）.....
+8. 不管继承多少个类 都要写基类的构造函数 但是如果是多态要记得虚继承
+9. 虚函数（用于重写） virtual void def（）{...}正常写就行 当然也可以写成纯虚函数 virtual void def（）=0；
 其他操作：
 
 1. lst1.clear(); // 清空列表
