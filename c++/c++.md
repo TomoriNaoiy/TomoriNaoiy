@@ -395,6 +395,21 @@ int main() {
     return 0;
 }
 ```
+# new 以及malloc
+malloc是分配大小 如 int *a=malloc(4)
+
+而malloc分配的只能使用free(a)
+
+new则是分配内存的同时调用构造函数 （也就是说 给的值不是大小 而是初始化的参数）
+
+```c++
+point *p= new P1(a)
+int* p = new int[10];
+point p1[5];
+p1[0]=new P1(a)//或者这样
+```
+
+而new创建的空间 只能使用delete[] p删除
 ### 一些注意
 继承的时候 
 ```c++
