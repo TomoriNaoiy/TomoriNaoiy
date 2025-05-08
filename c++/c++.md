@@ -396,6 +396,7 @@ int main() {
 }
 ```
 # new 以及malloc
+new是申请开辟地址 因此一定是指针
 malloc是分配大小 如 int *a=malloc(4)
 
 而malloc分配的只能使用free(a)
