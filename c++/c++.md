@@ -583,9 +583,11 @@ int main()
 1. lst1.size(); // 获取列表中元素的数量
 2. lst1.empty(); // 检查列表是否为空
 
-### 一些容易错的地方（
+### 一些小东西（
 1. 前面以double定义 主函数给的却是int 这样输出会变成空...
 2. 小数位数保留#include<iomanip> cout<<fixed<<setprecision(x)<<;
+3. 万能头文件<bits/stdc++.h>
+4. 函数重载是template <typename T> 类是class T 而且写在外面的话没行都要写一个
 其他操作：
 
 1. lst1.clear(); // 清空列表
