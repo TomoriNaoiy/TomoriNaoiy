@@ -1,0 +1,5 @@
+flask
+torch
+opencv-python
+ultralytics
+werkzeug
