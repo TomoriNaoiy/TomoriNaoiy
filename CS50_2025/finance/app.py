@@ -34,16 +34,17 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    """Show portfolio of stocks"""
     user_id = session["user_id"]
 
     # 获取用户持仓
     holdings = db.execute(
         "SELECT symbol, shares FROM portfolios WHERE user_id = ?", user_id
     )
+    #print("Holdings:", holdings)  # 添加打印语句
 
     # 获取用户现金
     cash = db.execute("SELECT cash FROM users WHERE id = ?", user_id)[0]["cash"]
+    #print("Cash:", cash)  # 添加打印语句
 
     total = cash  # 总资产 = 现金 + 股票市值
 
@@ -316,3 +317,5 @@ def sell():
             "SELECT symbol FROM portfolios WHERE user_id = ?", user_id
         )
         return render_template("sell.html", symbols=[row["symbol"] for row in symbols])
+if __name__=="__main__":
+    app.run(debug=True)

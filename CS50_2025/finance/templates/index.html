@@ -1,20 +1,24 @@
+<!-- index.html -->
 {% extends "layout.html" %}
 {% block title %}
 Portfolio
 {% endblock %}
 {% block main %}
+<!-- 调试信息 -->
+
+
 <table>
     <thead>
-        <tr><th>Symbol</th>
+        <tr>
+            <th>Symbol</th>
             <th>Name</th>
             <th>Shares</th>
             <th>Price</th>
             <th>Total</th>
         </tr>
-
     </thead>
     <tbody>
-        {% for row in hodings %}
+        {% for row in holdings %}
         <tr>
             <td>{{ row.symbol }}</td>
             <td>{{ row.name }}</td>
@@ -22,8 +26,10 @@ Portfolio
             <td>{{ row.price | usd }}</td>
             <td>{{ row.total | usd }}</td>
         </tr>
+        {% else %}
+        <tr><td colspan="5">No holdings</td></tr>
+        {% endfor %}
     </tbody>
-</table>
 </table>
 <p><strong>Cash:</strong> {{ cash | usd }}</p>
 <p><strong>Total Assets:</strong> {{ total | usd }}</p>
