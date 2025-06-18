@@ -1,9 +1,0 @@
-# pytorch的步骤
-### Dataset 
-其实就是 数据集 有好几种 分为图片和标签相连或是一个文件夹放图片 一个文件夹放label 
-
-在pytorch中的导入就是 
-```py
-from torchvision import Dataset
-```
-
