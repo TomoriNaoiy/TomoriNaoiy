@@ -58,8 +58,8 @@ ________________________________________________________________________________
 - tuetle.pencolor（random.randint(0,255),random.randint(0,255),random.randint(0,255)）
 
 -------------------------------------------------------------------------------------------
-- 随机数：第一种；从1到200中随机选一个整数。random.dandint(1,200)
-- 第二种：从1到200中随机选一个数，可小数可分数。random。uniform（1，200）
+- 随机数：第一种；从1到200中随机选一个整数。random.randint(1,200)
+- 第二种：从1到200中随机选一个数，可小数可分数。random.uniform（1，200）**注意： 这里和randint都是闭区间]**
 - 将5个数放入一个碗中，从中随机选一个数。num（200，111，500，233，333，111）random.choice(num)
 - 找到最大值：max(num)
 - 找到最小值：min（num）
@@ -84,8 +84,8 @@ print(s)  # 输出 "hallo"
 s = "hello"
 s_list = list(s)
 s_list[1] = "a"  # 修改第二个字符
-s = "".join(s_list)  # 转换回字符串
-print(s)  # 输出 "halo"
+s = "".join(s_list)  # 转换回字符串 通过''将每个元素连接
+print(s)  # 输出 "hello"
 ```
 
 - 整数类型integer（简称；int）
@@ -232,15 +232,15 @@ c=a+b
 - pop(下标)
 - remove(元素)
 - reverse()倒置列表
-- .sort()不写 默认从小到大 若sort(reverse=True)则从大到小
-- sorted()函数 可以对任何形式排序
+- .sort()不写 默认从小到大 若sort(reverse=True)则从大到小  没有返回值 直接对地址操作 对列表进行改变
+- sorted()函数 返回一个排序好的列表 
 
 实用方法
 
 sort()
 
 对列表排序 list.sort()
-
+list.sort(key=lambda x:x[0])
 key=lambda x:x=...根据什么数值排序
 ```
 
@@ -506,7 +506,7 @@ A=APG（）
 A.o();
 ```
 魔法方法
--init-(self)
+_init_(self)
 `self.a=a`
 编译器会自动运行上方法 在该类中的所有函数都可以调用这个值(类似于c++语言里面的类的public)
 还有-str-等魔法方法
@@ -613,11 +613,41 @@ print(c)
 减少由于类型而引起的错误
 def f(a:int,b:int) -> int
 可以使用mypy进行检测
+# time库
 
+- ctime 返回当前时间
+```py
+print(time.ctime())
 
+ #'Fri Jan 26 12:11:16 2018'
+```
+- gettime+strftime()
+```py
+t = time.gmtime()#获得计算机内部时间（）
+time.strftime("%Y-%m-%d %H:%M:%S",t)#类似正则表达式
+ #'2018-01-26 12:55:20'
+```
+![image](https://github.com/user-attachments/assets/36cc48fc-ebe8-4c19-85bd-a39f423a0dcd)
 
+# jieba
+看起来一点没用 就记一个
+```py
+jieba.lcut("中国是一个伟大的国家")
+# ['中国', '是', '一个', '伟大', '的', '国家']
+```
 
+# 文件操作
+```python
+with open("...csv",'r') as f:#这里f是一个文件类型 可以通过遍历获得每一行 但是是str类型
+	for row in f:  #row 是字符串 需要通过split()变成列表后进行其他操作
+		row.split(",")
+		row=[....]#用列表推导式去除换行符
+	#也可以使用f.read()获得的是一个字符串 包括所有的的东西 不好用
+	#用f.readline()获得一行的字符串
+	#用f.readlines()获得所有的列表
+```
 
+	
 
 
 
