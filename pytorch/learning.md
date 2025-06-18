@@ -36,6 +36,15 @@ train_data = datasets.MNIST(root='data', train=True, transform=transforms.ToTens
 
 ## DataLoader
 数据处理工具 主要是数据集分组的作用
+```py
+train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
+```
+batch_size是批次大小 相当于将64份图片分成一个批次 
+
+shuffle参数用于判断每个epoch是否打乱顺序
+
+
+## 模型构建的开始
 
 
 
