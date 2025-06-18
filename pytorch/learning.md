@@ -1,4 +1,4 @@
-# pytorch的步骤
+# pytorch
 ## Dataset 
 其实就是 数据集 有好几种 分为图片和标签相连或是一个文件夹放图片 一个文件夹放label 
 
@@ -43,8 +43,98 @@ batch_size是批次大小 相当于将64份图片分成一个批次
 
 shuffle参数用于判断每个epoch是否打乱顺序
 
-
+另外 train_loader是一个迭代器 可以通过遍历获得其中的元素
 ## 模型构建的开始
+通过Sequential打包网络模型 （不用重复写整个网络组成）
+```python
+class Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(28*28,128),
+            nn.ReLU(),
+            nn.Linear(128,64),
+            nn.ReLU(),
+            nn.Linear(64,10)
+        )
 
+    def forward(self,x):
+        return self.net(x)
+```
+**super().__init__()** 调用父类的构造函数
 
+**为什么要调用呢？**
 
+module是一个工具箱 必须先调用他 才能知道其中的网络结构
+
+怎么得知的大小为28*28
+
+因为这里是mnist数据集 大小就是28*28 可以通过print（x.shape)来看一看 至于为什么是128 隐藏层你自己设计 64 128 256都可以
+
+**不加flatten呢？**
+
+由于loader进去的是[batch_size,1,28,28] 会报错 因此要展品
+## 模型训练
+```python
+model = Model()
+model_loss = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+for epcho in range(1, 6):
+    for data in train_loader:
+        x, y = data# x是图像的数据 [64,1,28,28] y是标签 这里是tensor([3,0,4,1,9...])（随机取的）
+        output = model(x)#这个呢 很明显 就是最终得分 是一个（64,10）  里面包含了各个的得分 因此我们可以直接argmax获得结果 例如output.argmax(dim=1)
+        loss = model_loss(output, y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+    print(f"Epoch{epcho},Loss:{loss.item():.4f}")
+```
+### 损失函数获得函数  nn.CrossEntropyLoss() 里面包含了sofrmax+log+NLLLoss
+
+### 优化器（当然是梯度下降）
+```python
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+```
+使用adam方法 
+
+**parameters()是什么？**
+
+一个生成器 返回model里面所有需要训练的参数 （所有权重和偏置）
+
+lr是学习率 这个不必多说了 cs231n见的不少了 小一点为好 免得跳过了最优点
+
+### 模型评估
+```python
+correct = 0
+total = 0
+with torch.no_grad():#关闭梯度计算
+    for x, y in test_loader:
+        output = model(x)
+        pred = output.argmax(dim=1)
+        correct += (pred == y).sum().item()
+        total += y.size(0)
+print(f"Test Accuracy: {100 * correct / total:.2f}%")
+```
+看代码应该挺好理解
+
+### 保存和加载
+```python
+torch.save(model.state_dict(),'mnist_model.pth')
+model2 = Model()
+model2.load_state_dict(torch.load("mnist_model.pth"))
+```
+state_dict可以返回所有参数 
+
+save保存到磁盘
+
+load_state_dict(把参数加载进模型)
+
+**模型会保存到当前脚本运行的路径下**
+### 单张图片预测
+```python
+image, label = test_data[0]
+plt.imshow(image.squeeze(), cmap='gray')#squeeze() 去掉多余的维度[1,28,28]->[28,28]
+plt.title(label)
+```
