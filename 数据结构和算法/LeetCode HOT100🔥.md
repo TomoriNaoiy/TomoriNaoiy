@@ -38,4 +38,18 @@ class Solution:
                 return (hash[target - num], i)
             hash[num] = i
 ```
+# 第二题
+<img width="1153" height="1002" alt="image" src="https://github.com/user-attachments/assets/40545940-77eb-4396-8a1a-72b371151a2c" />
+其实很简单 但是做不出来因为对字典的了解太差了 还得练
+思路是将每个字符排序 然后做为键放入 但是要使用defaludict（list）以确保没有的时候放的是空列表
+```python
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        hash=defaultdict(list)
+        for s in strs:
+            temp=''.join(sorted(s))
+            
+            hash[temp].append(s)
+        return list(hash.values())
 
+```
