@@ -78,3 +78,33 @@ class Solution:
         return ma
 
 ```
+# 第七题
+<img width="1301" height="880" alt="image" src="https://github.com/user-attachments/assets/c41a6552-2b68-4ba1-90fd-b5432653d8b8" />
+
+非常难绷的一题 硬肝了两个小时无法战胜 看答案才知道思路
+
+讲思路面前 得想知道 一格的蓄水量 取决于右边最大和左边最大中的较小的那一个
+
+思路：每一格的蓄水量等于左边和右边的小格减去当前高度 也就是说如果旁边是1 这个是0 就1格 旁边是3 这边是3 就是0（包括自己）
+
+我们用两个指针 一个从左开始 一个从右开始 并且每一步保留左边右边目前最大值 如果左边小 就用左边减去当前 并且左边前进 如果右边大或者等 右边减一格
+
+**不好想的部分** 为什么离得那么远 也能用那一格的值来比较？因为我们知道 如果右边最大值大 说明右边一定有能够挡住的 不管中间怎么样 因此我们可以这么做 一个个累加起来
+
+```python
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        ans = pre_max = suf_max = 0
+        left, right = 0, len(height) - 1
+        while left < right:
+            pre_max = max(pre_max, height[left])#不管更新最大值
+            suf_max = max(suf_max, height[right])
+            if pre_max < suf_max:
+                ans += pre_max - height[left]
+                left += 1
+            else:
+                ans += suf_max - height[right]
+                right -= 1
+        return ans
+
+```
