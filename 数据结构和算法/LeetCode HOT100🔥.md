@@ -53,3 +53,28 @@ class Solution:
         return list(hash.values())
 
 ```
+
+# 第五题
+<img width="1184" height="1154" alt="image" src="https://github.com/user-attachments/assets/dfab65b9-2c43-445c-b79d-5a865249e736" />
+一个双指针的题目 如果暴力会o(n²) 我们用双指针 
+
+在这里有个问题 我用双指针的时候太注重贪心的思想了 导致无法很好的遍历每一个点 实际上 由于我们双指针实际上是一次完整的遍历 而且每次都保留最大值 所以我们指针移动的条件应该给的松一点 不如在这里 我一开始给的条件是如果面积更大才移动 但这样就导致如果前面有更大的就被小的卡住了 应该直接判断高度更小就移动的 这样就可以完整的遍历一遍了 而且最大值也会被保留
+```python
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        left=0
+        right=len(height)-1
+        ma=0
+        for i in range(len(height)-1):
+            res=(right-left)*min(height[left],height[right])
+            ma=max(ma,res)
+            while height[left]>=height[right] and left<=right:
+                right-=1
+                res=(right-left)*min(height[left],height[right])
+                ma=max(ma,res)
+            left+=1
+            
+            
+        return ma
+
+```
