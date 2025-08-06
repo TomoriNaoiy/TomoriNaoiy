@@ -131,4 +131,22 @@ class Solution:
         return ma
 ```
 这里面有几个细节 首先即使遇到了已经有的 删掉前面的之后还是需要把当前这个放进去 不然就漏掉了对吧 然后每次维护最大值
-
+# 第九题 
+同样是滑动窗口 但这一题我觉得我的思路是比较经典的滑动窗口思想 不过使用了sort导致复杂度比较高 好在是过了
+思路： 先给i为right指针不断向前 然后在循环里面写一个while维护窗口始终为len（p） 当达到第一个窗口的条件时开始判断 如果满足p就返回left。
+与答案的差别就在于我判断异位的方法 我使用的是sort后放入hash字典 答案的方法是通过计算26个字母的数量 很明显他的复杂度小但是不好写 我这把更快但是好写
+```python
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        hash=dict()
+        hash[''.join(sorted(p))]=0
+        ans=[]
+        left=0
+        for i in range(len(s)):
+            while i-left>len(p)-1:
+                left+=1
+            if i>=len(p)-1:
+                if ''.join(sorted(s[left:i+1])) in hash:
+                    ans.append(left)
+        return ans
+```
