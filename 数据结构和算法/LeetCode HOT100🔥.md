@@ -150,3 +150,28 @@ class Solution:
                     ans.append(left)
         return ans
 ```
+```python
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        from collections import Counter
+        
+        ns, np = len(s), len(p)
+        if ns < np:
+            return []
+        
+        count_p = Counter(p)
+        count_s = Counter()
+        res = []
+        
+        for i in range(ns):
+            count_s[s[i]] += 1
+            if i >= np:
+                if count_s[s[i - np]] == 1:
+                    del count_s[s[i - np]]
+                else:
+                    count_s[s[i - np]] -= 1
+            if count_s == count_p:
+                res.append(i - np + 1)
+        return res
+```
+可以看一下 和我的思路很像 都是一个窗口 只是他用count计数 离开窗口的就减掉
