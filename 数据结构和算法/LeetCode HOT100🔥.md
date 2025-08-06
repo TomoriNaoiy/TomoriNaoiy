@@ -107,4 +107,28 @@ class Solution:
                 right -= 1
         return ans
 
+
 ```
+# 第八题
+滑动窗口模块 实际上和双指针非常像 都是通过left和right指针进行左右移动 区别可能就是滑动窗口是有固定的区间大小或者通过区间大小解决问题 而双指针是通过特点条件从而移动指针解决问题
+<img width="1133" height="823" alt="image" src="https://github.com/user-attachments/assets/3906c8cf-0a4c-4a69-9af1-d60de6a69bb4" />
+这题要找的是最长不重复部分 如果我们直接遍历一遍 会导致其中有漏掉的部分 因此我们需要的是以每一个元素为起点的遍历 但是又得是o（n） 怎么办呢 我们使用一个集合 如果不在就放入 同时right++
+如果在的话 就把left右移 直到删掉第一个和right重复的元素 也就是remove（left） 然后left++
+
+这样可能会有疑问 那么这样怎么保留他最大值呢 所以我们每次left停止右移或者right遇到新的元素时就取一次最大值 这样就能够完美的保存每次的最大值了
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        se=set()
+        left=0
+        ma=0
+        for i,v in enumerate(s):
+            while v in se:
+                se.remove(s[left])
+                left+=1
+            se.add(v)
+            ma=max(ma,i-left+1)
+        return ma
+```
+这里面有几个细节 首先即使遇到了已经有的 删掉前面的之后还是需要把当前这个放进去 不然就漏掉了对吧 然后每次维护最大值
+
