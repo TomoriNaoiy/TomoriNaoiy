@@ -175,3 +175,27 @@ class Solution:
         return res
 ```
 可以看一下 和我的思路很像 都是一个窗口 只是他用count计数 离开窗口的就减掉
+# 第十题
+写的快崩溃的一题 看起来用双指针的思路 但是并不行 看到题解 居然使用的是哈希表加前缀和 万万没想到前缀和还能这么用 直接转化成了第一题 
+<img width="1317" height="629" alt="image" src="https://github.com/user-attachments/assets/fcf13a44-5e42-4f23-bc73-71118b4b22e2" />
+
+思路：由于前缀和【i】-[j]=k 可以和第一题两数之和类似 通过哈希表进行存储 一次遍历即可 但是又有不同 这里是次数 而不是只有一个 不能用if ... in 的语法 而是要通过ans+=hash[j-k] 并且每次存入hash[j]+=1 两部 从而在放入每一个值
+```python
+
+
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        ans = 0
+        nums_qz = [0 for _ in range(len(nums)+1)]
+        for i in range(len(nums)):
+            nums_qz[i+1] = nums_qz[i]+nums[i]
+        hash = defaultdict(int)
+        hash[0] = 1  # 注意：前缀和0出现1次
+
+        for j in range(1, len(nums_qz)):
+            # 先统计
+            ans += hash[nums_qz[j]-k]
+            # 再更新
+            hash[nums_qz[j]] += 1
+        return ans
+```
