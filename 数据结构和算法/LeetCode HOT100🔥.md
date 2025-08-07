@@ -220,3 +220,33 @@ class Solution:
         return ans
 ```
 
+# 第十二题 
+<img width="1244" height="487" alt="image" src="https://github.com/user-attachments/assets/83f9aac3-a6af-49d3-b77d-708b1224555a" />
+
+又是困难题 但是思路其实已经非常简单勒 主要还是一个双指针
+
+难点在于怎么判断包含 这里用的是Counter（）
+```python
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        
+        cnt_s=Counter()
+        cnt_t=Counter(t)
+        left=0
+        ans=float("inf")
+        a=-1
+        b=len(s)-1
+        for i,v in enumerate(s):
+            cnt_s[v]+=1
+            while cnt_t<=cnt_s:
+                if i-left<b-a:
+                    
+                    a=left
+                    b=i
+                cnt_s[s[left]]-=1
+                left+=1
+        if a<0:
+            return "" 
+        return s[a:b+1]
+```
+如果包含 这里直接使用＞就可以 然后left向前移动 把counter里面的字母-1即可 思路很简单 就是正常的双指针
