@@ -199,3 +199,24 @@ class Solution:
             hash[nums_qz[j]] += 1
         return ans
 ```
+# 第十一题 
+用时最短的一提困难题（其实是在洛谷做过）
+<img width="1312" height="887" alt="image" src="https://github.com/user-attachments/assets/0db4e309-f14c-4c9c-953b-a753b73d7b3d" />
+由于是固定窗口 又取最大值 用max复杂度超级高 用线段树又太麻烦 我们直接用单调队列
+```python
+from collections import deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        que=deque()
+        ans=[]
+        for i,v in enumerate(nums):
+            while que and nums[que[-1]]<=v:
+                que.pop()
+            que.append(i)
+            if que and que[0] <= i-k:
+                que.popleft()
+            if i>=k-1:
+                ans.append(nums[que[0]])
+        return ans
+```
+
