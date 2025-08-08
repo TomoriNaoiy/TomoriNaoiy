@@ -1,4 +1,4 @@
-<img width="1314" height="911" alt="image" src="https://github.com/user-attachments/assets/044dbb2b-acda-4658-9b81-c0ac8cd71884" />算法的学习已经有一点点基础了 在大二开始前先试试能否完成力扣HOT100 提升算法能力！
+算法的学习已经有一点点基础了 在大二开始前先试试能否完成力扣HOT100 提升算法能力！
 ==============================
 
 1. 两数之和 
@@ -291,5 +291,5 @@ class Solution:
         return ans    
         
 ```
-
+非常巧妙的通过是否给left1赋值判断是否是同一个区间 然后在不满足同一个区间的时候再往ans里面放 的确非常巧妙
 
