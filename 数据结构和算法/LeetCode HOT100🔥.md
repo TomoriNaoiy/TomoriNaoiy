@@ -250,3 +250,25 @@ class Solution:
         return s[a:b+1]
 ```
 如果包含 这里直接使用＞就可以 然后left向前移动 把counter里面的字母-1即可 思路很简单 就是正常的双指针
+# 第十三题
+其实是一个很简单的题目 又是把序列和转化为前缀和 从n个数转化为2个数的差
+<img width="1291" height="790" alt="image" src="https://github.com/user-attachments/assets/6df26df4-7681-486e-baad-7b025cf9faae" />
+但是有个问题是 如果直接max和min 则可能出现j在i前面的错误 因此我们必须用两个指针 left始终跟在right后面并且更新为最小值 保证前面减去后面 而且是n的复杂度
+```python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        nums_qz=[0 for _ in range(len(nums)+1)]
+        for i in range(len(nums)):
+            nums_qz[i+1]=nums_qz[i]+nums[i]
+        left=float("inf")
+        
+        ans=float("-inf")
+        left=0
+        for i in range(1,len(nums_qz)):
+            ans=max(nums_qz[i]-left,ans)
+            left=min(left,nums_qz[i])
+        return ans
+```
+
+        
+
