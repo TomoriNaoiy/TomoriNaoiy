@@ -1,4 +1,4 @@
-算法的学习已经有一点点基础了 在大二开始前先试试能否完成力扣HOT100 提升算法能力！
+<img width="1314" height="911" alt="image" src="https://github.com/user-attachments/assets/044dbb2b-acda-4658-9b81-c0ac8cd71884" />算法的学习已经有一点点基础了 在大二开始前先试试能否完成力扣HOT100 提升算法能力！
 ==============================
 
 1. 两数之和 
@@ -269,6 +269,27 @@ class Solution:
             left=min(left,nums_qz[i])
         return ans
 ```
+# 第十四题
+一题看完题解把自己气笑的一题 想了半天怎么去掉里面替换完的区间 又怎么以替换完的区间为坐标来继续判断下一个 这个题解确实太巧妙了 直接使用pop获得元素 然后使用left1，right1，left2和right2来进行区间两端点的更替 简直就是天才 用下标取值的我简直....
+<img width="1283" height="686" alt="image" src="https://github.com/user-attachments/assets/507d97d4-baef-4434-90b4-227e8ca05002" />
 
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort()
+        left1,right1=intervals.pop(0)
+        ans=[]
+        while intervals:
+            left2,right2=intervals.pop(0)
+            if right1>=left2:
+                right1=max(right1,right2)
+            else:
+                ans.append([left1,right1])
+                left1=left2
+                right1=right2
+        ans.append([left1,right1])
+        return ans    
         
+```
+
 
