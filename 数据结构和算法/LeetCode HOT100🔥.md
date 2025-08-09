@@ -293,3 +293,27 @@ class Solution:
 ```
 非常巧妙的通过是否给left1赋值判断是否是同一个区间 然后在不满足同一个区间的时候再往ans里面放 的确非常巧妙
 
+# 第十五题
+一个比较新的题目 从前缀和变成前缀积 但是又不同于正常的前缀 题目我们需要找到i的前缀积和后缀积 因此需要和正常的前缀有些区别
+<img width="1219" height="387" alt="image" src="https://github.com/user-attachments/assets/75126d5c-da51-4799-be6b-81cff9b723ab" />
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n=len(nums)
+        pre=[1 for _ in range(n)]
+        suf=[1 for _ in range(n)]
+        ans=[]
+        for i in range(1,len(nums)):
+            pre[i]=pre[i-1]*nums[i-1]
+        for i in range(len(nums)-2,-1,-1):
+            suf[i]=suf[i+1]*nums[i+1]
+        for p,v in zip(pre,suf):
+            ans.append(p*v)
+        return ans
+```
+这里的前缀和正常的区别 nums=【1， 2，3，4】
+那么pre=[1,1, 2,6]
+suf=[24,12,4,1]
+对于正常的前缀积是[1,1,2,6,24]
+后缀【24,24,12,4,1】
+很明显 这里的写法少了一个位置 去掉了最后一位 这样恰好可以满足i的左边和右边的积
