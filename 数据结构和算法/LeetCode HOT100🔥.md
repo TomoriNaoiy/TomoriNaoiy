@@ -317,3 +317,45 @@ suf=[24,12,4,1]
 对于正常的前缀积是[1,1,2,6,24]
 后缀【24,24,12,4,1】
 很明显 这里的写法少了一个位置 去掉了最后一位 这样恰好可以满足i的左边和右边的积
+# 十六题
+非常简单的困难题 思路比较简单 但是或许是一个可以延申的思想
+<img width="968" height="812" alt="image" src="https://github.com/user-attachments/assets/ffb7b26e-2903-401b-a2c2-e0338129641a" />
+正常排序完之后 普通的思路（我的）就是遍历这个数组 我希望是先把《=0的排除了 然后让num[i]==i的方式来实现 但是这样有很多问题 比如重复 比如有0和-1导致下标和值不一定对其 又不方便用字典来做 而题解使用的是一种动态指针的思路 我的思路是固定的i对应固定的下标 但是题解的思路是给一个i 如果满足这个整数了 就i++ 这样完美解决了重复的问题（因为是遍历） 然后也解决了下标不对其的问题 延申的思路就是 我们不用固定的指标 而是通过动态指标 满足条件则进行变化 以满足需求 是一个很好的思想
+```python
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        nums.sort()
+        y=1
+        for i in nums:
+            if i == y:
+                y+=1
+            elif i>y:
+                return y
+        return y
+     
+```
+# 第十八题 
+非常简单的矩阵题 记录一下写的思想
+<img width="1215" height="1061" alt="image" src="https://github.com/user-attachments/assets/c6b12963-0e7d-42ec-8cb5-ebb1fbe9fded" />
+最简单的肯定是开一个一样大的空间 但是不合适 我使用的方法是构造一个row和一个wow 一个记录行 一个记录列 有出现0 就给那一个赋值1 然后再遍历一遍数组 如果row或者wow中有出现1 就全部赋值0 否则保留 这样的空间消耗小一点
+```python
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        rl=len(matrix)
+        wl=len(matrix[0])
+        row=[0 for _ in range(rl)]
+        wow=[0 for _ in range(wl)]
+        for i in range(rl):
+            for j in range(wl):
+                if matrix[i][j]==0:
+                    row[i],wow[j]=1,1
+        #print(row,wow)
+        for i in range(rl):
+            for j in range(wl):
+                if row[i] or wow[j]:
+                    matrix[i][j]=0
+```
+
