@@ -358,4 +358,70 @@ class Solution:
                 if row[i] or wow[j]:
                     matrix[i][j]=0
 ```
+# 第十九题
+一题比较难的矩阵 以前也做过 但还是不会
+思路就是 使用四个指针 在循环中巧妙的变化 完成循环
+<img width="1241" height="1013" alt="image" src="https://github.com/user-attachments/assets/4ccc601b-58ec-4da4-a25f-4c0e04a6ccc3" />
+```python
+class Solution:
+    def spiralOrder(self, matrix):
+        res = []
+        if not matrix:
+            return res
+        
+        top, bottom = 0, len(matrix) - 1
+        left, right = 0, len(matrix[0]) - 1
+        
+        while left <= right and top <= bottom:
+            # 从左到右
+            for i in range(left, right + 1):
+                res.append(matrix[top][i])
+            top += 1
+            
+            # 从上到下
+            for i in range(top, bottom + 1):
+                res.append(matrix[i][right])
+            right -= 1
+            
+            # 从右到左
+            if top <= bottom:
+                for i in range(right, left - 1, -1):
+                    res.append(matrix[bottom][i])
+                bottom -= 1
+            
+            # 从下到上
+            if left <= right:
+                for i in range(bottom, top - 1, -1):
+                    res.append(matrix[i][left])
+                left += 1
+        
+        return res
+```
+# 第二十题
+<img width="1243" height="1180" alt="image" src="https://github.com/user-attachments/assets/a605e15d-6e2d-43c6-bd85-66dfebe8b57f" />
+
+旋转图像
+做法很简单 但是要知道技巧
+逆旋转90 转置+列倒叙
+顺90 转置+行倒序
+180 行+列倒序
+```python
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        l=len(matrix)
+        r=len(matrix[0])
+        for i in range(l):
+            for j in range(i,r):
+                temp=matrix[i][j]
+                matrix[i][j]=matrix[j][i]
+                matrix[j][i]=temp
+        for i in range(l):
+            for j in range(r//2):
+                temp=matrix[i][j]
+                matrix[i][j]=matrix[i][r-j-1]
+                matrix[i][r-j-1]=temp
+```
 
