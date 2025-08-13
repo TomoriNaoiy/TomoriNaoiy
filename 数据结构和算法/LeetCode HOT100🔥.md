@@ -424,4 +424,18 @@ class Solution:
                 matrix[i][j]=matrix[i][r-j-1]
                 matrix[i][r-j-1]=temp
 ```
-
+# 二十一题 
+矩阵的搜索 很有意思的题目 从中能发现一些思路和技巧
+<img width="1304" height="1171" alt="image" src="https://github.com/user-attachments/assets/bc490a9c-4606-4389-8bae-92db9d0c2a6e" />
+第一种方法 直接二分 复杂度mlogn
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+      for row in matrix:
+        idx = bisect.bisect_left(row,target)
+        if idx<len(row) and row[idx]==target:
+          return True
+      return False
+```
+bisect.bisect_left(list,target)
+通过二分寻找第一个等于target的下标 如果都没有 就返回第一个大于他的下标 如果都小于 就返回列表长度**注意二分是一定要排序的！！！！！！！！**
