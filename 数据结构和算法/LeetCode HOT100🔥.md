@@ -439,3 +439,24 @@ class Solution:
 ```
 bisect.bisect_left(list,target)
 通过二分寻找第一个等于target的下标 如果都没有 就返回第一个大于他的下标 如果都小于 就返回列表长度**注意二分是一定要排序的！！！！！！！！**
+第二种方法 复杂度o(n+m)
+我感觉很难想出来 
+每一行的最后一位都是最大 那我们从第一行最后一个开始 如果小 x-=1 如果大 就y+=1 这样就避免了同时考虑要向下和向左的情况 确实很有意思
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        l=len(matrix)
+        w=len(matrix[0])
+        a=0
+        b=w-1
+        while b>=0 and a<l:
+            if matrix[a][b]==target:
+                return True
+            if matrix[a][b]<target:
+                a+=1
+            else:
+                b-=1
+        return False
+
+
+```
