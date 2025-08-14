@@ -460,3 +460,30 @@ class Solution:
 
 
 ```
+# 第二十七题
+合并链表 有一些难度 关键是掌握方法
+<img width="1251" height="1115" alt="image" src="https://github.com/user-attachments/assets/fbeef0a2-59a5-42b8-80a4-5634b8d15a6c" />
+做法是 先来一个新的listnode 值多少无所谓 然后同时遍历两个链表 如果那边小 新的头就指向它 然后list要往下 最后新的头也往下 就这样一个一个遍历下去 知道两个中有一个为None 停下来了 但是有剩下的l没有结束 那么直接把头指向剩下的那个即可 最后返回新的头的next即可
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        pre=ListNode(-1)
+        a=pre
+        while list1 and list2:
+            if list1.val<=list2.val:
+                pre.next=list1
+                list1=list1.next
+                
+            else:
+                pre.next=list2
+                list2=list2.next
+            pre=pre.next
+        pre.next=list1 if list1 is not None else list2
+        return a.next
+```
+
