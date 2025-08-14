@@ -486,4 +486,7 @@ class Solution:
         pre.next=list1 if list1 is not None else list2
         return a.next
 ```
+# 第二十八题 
+没啥好讲的 纯模拟 说一个好玩的点
+如果一个数和另一个数位数不同 我们最后要相加（列表里面） 我们可以直接把他变成str 然后用join连接 再变成int直接相加就行 不用*10的n次方这么麻烦了
 
