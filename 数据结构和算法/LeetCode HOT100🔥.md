@@ -515,3 +515,45 @@ class Solution:
         return dum.next
 
 ```
+# 第三十题
+目前来说感觉最难的一题（当然用数组模拟就太简单了）
+<img width="1299" height="1163" alt="image" src="https://github.com/user-attachments/assets/a82f9a83-61e4-409e-abca-70bfda0c027c" />
+在了解了如何翻转链表后 还是倒在了链之间的连接中
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+       
+        p=head
+        cut=0
+        while p:
+            p=p.next
+            cut+=1
+        p0=ListNode(next=head)
+        dummt=p0
+        pre=None
+        cur=head
+        nex=None
+        for _ in range(cut//k):
+           
+
+            for _ in range(k):
+                nex=cur.next
+                cur.next=pre
+                pre=cur
+                cur=nex
+            nex=p0.next
+            nex.next=cur
+            p0.next=pre
+            p0=nex
+        
+        return dummt.next
+
+```
+翻转思路为  给一个pre 一个cur 一个next（防止丢失） 然后遍历一遍链表 让cur指向pre 然后cur和pre不断向前（将链表倒叙连接）
+而这里是片段 所以多了一个片段的连接 有点难理解
+
