@@ -556,4 +556,41 @@ class Solution:
 ```
 翻转思路为  给一个pre 一个cur 一个next（防止丢失） 然后遍历一遍链表 让cur指向pre 然后cur和pre不断向前（将链表倒叙连接）
 而这里是片段 所以多了一个片段的连接 有点难理解
+# 三十一题
+<img width="1343" height="1136" alt="image" src="https://github.com/user-attachments/assets/dde67f2f-c5a3-492b-8fda-c7d8be2cb1e4" />
 
+一个对加入了random指针的链表的深度复制 要求不能指向原链表
+
+最大的难点在于怎么对应原链表random的指针
+
+这里使用的是 hash表 将原链表做为键 复制为值 然后一一对应就可以了 很神奇
+
+有一个要注意的点 就是如果random指针为空（None） 就会报错 因为没有这个东西 我们要提前设置**hash[None]=None**！！
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        
+        has={None:None}
+        if not head:
+            return None
+        q=head
+        while q:
+            has[q]=Node(q.val)
+            q=q.next
+        q=head
+        while q:
+            has[q].next=has[q.next]
+            has[q].random=has[q.random]
+            q=q.next
+        return has[head]
+
+```
