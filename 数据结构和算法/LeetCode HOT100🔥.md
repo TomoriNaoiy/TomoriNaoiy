@@ -490,3 +490,28 @@ class Solution:
 没啥好讲的 纯模拟 说一个好玩的点
 如果一个数和另一个数位数不同 我们最后要相加（列表里面） 我们可以直接把他变成str 然后用join连接 再变成int直接相加就行 不用*10的n次方这么麻烦了
 
+# 第二十九题
+要求是两两交换 难点就在于 如何确保两个 两个进行交换呢
+题解的思路很巧妙 每次要执行的链表通过temp来定义 而temp每次有相当于往前两步
+<img width="1242" height="811" alt="image" src="https://github.com/user-attachments/assets/7479ca58-8922-42df-9f38-e4da933ec5ad" />
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dum=ListNode(-1)
+        dum.next=head
+        temp=dum
+        while temp.next and temp.next.next:
+            node1=temp.next
+            node2=temp.next.next
+            temp.next=node2
+            node1.next=node2.next
+            node2.next=node1
+            temp=node1
+        return dum.next
+
+```
