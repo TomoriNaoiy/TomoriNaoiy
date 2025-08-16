@@ -594,3 +594,64 @@ class Solution:
         return has[head]
 
 ```
+# 第三十四题
+纯手搓的困难题 有点成就感 但是不是最优解 最优解居然是使用堆 看来得学习一下也用法了
+<img width="1010" height="1066" alt="image" src="https://github.com/user-attachments/assets/9af8e9a7-8b64-4752-b576-b57e5d043aff" />
+我自己做的思路就是 每两个进行一次链表合并 就是从守卫开始添加较小的部分 然后完成这两个的排序后 把指针会到开头 然后对下一个链表进行合并
+而题解的思路则是把所有已排的链表添加到堆里面 每次找出最小堆 然后把这个最小的next的放入堆中 再次寻找最小堆 直到结束
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        dummy=ListNode(-1)
+        temp=dummy
+        if lists:
+            head=lists[0]
+            if len(lists)>1:
+                for i in range(1,len(lists)):
+                    p=lists[i]
+                    while head and p:
+                        if head.val<=p.val:
+                            temp.next=head
+                            head=head.next
+                        else:
+                            temp.next=p
+                            p=p.next
+                        temp=temp.next
+                    temp.next = head if head is not None else p
+                    head=dummy.next
+                    temp=dummy
+            else:
+                return lists[0]
+            return dummy.next
+                
+            
+            
+```
+## 堆算法
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        cur = dummy = ListNode()
+        h = [(head.val, i) for i,head in enumerate(lists) if head]
+        heapify(h)
+        while h:
+            v, i = heappop(h)
+            cur.next = ListNode(v)
+            cur = cur.next 
+            if lists[i].next:
+                lists[i] = lists[i].next
+                heappush(h, (lists[i].val, i))
+        return dummy.next
+
+        
+```
