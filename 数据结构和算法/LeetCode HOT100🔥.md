@@ -655,3 +655,43 @@ class Solution:
 
         
 ```
+# 第三十五题
+<img width="1234" height="1149" alt="image" src="https://github.com/user-attachments/assets/a42b881a-0a3b-485b-ad51-a3866f3f65e4" />
+
+最久未使用删除的类型 实际上思路就是每次执行后将这个东西放到最上方 由于如果要o（1） 而且我不想写双向链表  所有这里用列表模拟 复杂度高一些 但也能过就是了 要注意的是remove没有返回值了...
+```python
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity=capacity
+        self.hash=dict()
+        self.use=[]
+        self.cut=0
+    def get(self, key: int) -> int:
+        if key in self.hash:
+            self.use.remove(key)
+            self.use.append(key)
+            return self.hash[key]
+            
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.hash:
+            self.hash[key]=value
+            self.use.remove(key)
+            self.use.append(key)
+        else:
+            self.hash[key]=value
+            self.cut+=1
+            self.use.append(key)
+            if self.cut>self.capacity:
+                self.cut-=1
+                temp=self.use.pop(0)
+                del self.hash[temp]
+                
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
