@@ -1,7 +1,7 @@
 算法的学习已经有一点点基础了 在大二开始前先试试能否完成力扣HOT100 提升算法能力！
 ==============================
 
-1. 两数之和 
+# 1. 两数之和 
 
 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
 
@@ -695,3 +695,19 @@ class LRUCache:
 # param_1 = obj.get(key)
 # obj.put(key,value)
 ```
+# 第三十七题
+一个很简单的深度问题 太久没写递归有点忘了 回顾一下
+<img width="1171" height="1111" alt="image" src="https://github.com/user-attachments/assets/3b948f48-7c01-429a-89c8-9d6620f89687" />
+```python
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        return max(self.maxDepth(root.left),self.maxDepth(root.right))+1
+```
+这里要求最大深度 很明显可以使用dfs
+
+递归怎么来书写呢
+
+直接使用max 会以深度优先（后序）不断向下 如果没有了就返回0 否则返回左或右的最大值+1（深度）
+
