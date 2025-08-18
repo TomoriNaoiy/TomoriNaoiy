@@ -730,4 +730,24 @@ class Solution:
 ```
 感觉写递归的题目有种“你尽管写最简单的思路 后续的完成交给奇迹”
 这里的写法直接是将左右交换的基础语法 递归会自动深入并完成所有内容
+# 第三十九题
+<img width="1274" height="907" alt="image" src="https://github.com/user-attachments/assets/2d567e4a-7280-4724-add6-2456fbb75040" />
 
+对称树 难度比上一题难 它要同时满足三个条件 左右等 左左等于右右 左右等于右左 因此我们可以使用两个节点而不是单个节点分散 并且return只需要同时三个条件即可
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def check(self,p,q):
+        if not p or not q:
+            return p == q#如果有null节点
+        return p.val==q.val and self.check(p.left,q.right) and self.check(p.right,q.left) #只需要满足这个最大的条件 就可以返回True
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        return self.check(root.left,root.right)
+
+
+```
