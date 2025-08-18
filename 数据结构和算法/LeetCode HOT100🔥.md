@@ -710,4 +710,24 @@ class Solution:
 递归怎么来书写呢
 
 直接使用max 会以深度优先（后序）不断向下 如果没有了就返回0 否则返回左或右的最大值+1（深度）
+# 第三十八题
+一题ac的莫名奇妙的题 自己都还没完全搞懂就结束了 
+<img width="1142" height="1111" alt="image" src="https://github.com/user-attachments/assets/2f79089b-a016-4f00-8198-3991fc2dd95c" />
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root:
+            temp=self.invertTree(root.left)
+            root.left=self.invertTree(root.right)
+            root.right=temp
+        return root
+```
+感觉写递归的题目有种“你尽管写最简单的思路 后续的完成交给奇迹”
+这里的写法直接是将左右交换的基础语法 递归会自动深入并完成所有内容
 
