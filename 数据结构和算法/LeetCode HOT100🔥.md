@@ -751,3 +751,29 @@ class Solution:
 
 
 ```
+# 第四十题
+很明显难于其他简单题 这题已经是树上dp的高端思想了 目前的我无法完全理解 先写下来
+<img width="1361" height="1048" alt="image" src="https://github.com/user-attachments/assets/7b118beb-c8a0-403e-8cb8-1ffd5f753d29" />
+思路就是 获得拐弯节点的左右链长度之和 然后遍历每个节点 并且对ans进行更新
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        ans=0
+        def check(r):
+            if not r:
+                return -1
+            ll=check(r.left)+1
+            rl=check(r.right)+1
+            nonlocal ans
+            ans=max(ans,ll+rl)
+            return max(ll,rl)
+        check(root)
+        return ans
+```
+研究了一下 发现它巧妙的结合了上一题求最大深度的需求 通过递归 然后max左右中最大的那一部分 让后最后加上1 就是左（右）的最大深度了 然后再相加 就是直径了 联系之紧密让我叹为观止
