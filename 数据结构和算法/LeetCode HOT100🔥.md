@@ -42,16 +42,15 @@ class Solution:
 <img width="1153" height="1002" alt="image" src="https://github.com/user-attachments/assets/40545940-77eb-4396-8a1a-72b371151a2c" />
 其实很简单 但是做不出来因为对字典的了解太差了 还得练
 思路是将每个字符排序 然后做为键放入 但是要使用defaludict（list）以确保没有的时候放的是空列表
+
 ```python
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         hash=defaultdict(list)
         for s in strs:
-            temp=''.join(sorted(s))
-            
+            temp=''.join(sorted(s))         
             hash[temp].append(s)
         return list(hash.values())
-
 ```
 
 # 第五题
@@ -59,7 +58,8 @@ class Solution:
 一个双指针的题目 如果暴力会o(n²) 我们用双指针 
 
 在这里有个问题 我用双指针的时候太注重贪心的思想了 导致无法很好的遍历每一个点 实际上 由于我们双指针实际上是一次完整的遍历 而且每次都保留最大值 所以我们指针移动的条件应该给的松一点 不如在这里 我一开始给的条件是如果面积更大才移动 但这样就导致如果前面有更大的就被小的卡住了 应该直接判断高度更小就移动的 这样就可以完整的遍历一遍了 而且最大值也会被保留
-```python
+
+```
 class Solution:
     def maxArea(self, height: List[int]) -> int:
         left=0
