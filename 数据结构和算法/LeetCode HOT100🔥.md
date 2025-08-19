@@ -777,3 +777,46 @@ class Solution:
         return ans
 ```
 研究了一下 发现它巧妙的结合了上一题求最大深度的需求 通过递归 然后max左右中最大的那一部分 让后最后加上1 就是左（右）的最大深度了 然后再相加 就是直径了 联系之紧密让我叹为观止
+# 第四十一题
+二叉树的层序遍历 从递归一下进入递推 确实不太适应 而且思路有些新奇 值得学习
+<img width="1261" height="1130" alt="image" src="https://github.com/user-attachments/assets/22fc1263-9e46-4e9f-a1d0-eea80a921ab8" />
+思路就是使用队列（保存每一层的节点）但是并不是使用while queue这样的条件 而是通过for —— in range（len）的条件 因为循环的同时要加入下一层的左右节点
+```python
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        res=[]
+        a=deque()
+        a.append(root)
+        while a:
+            temp=[]
+            for _ in range(len(a)):
+                node=a.popleft()
+                temp.append(node.val)
+                if node.left:
+                    a.append(node.left)
+                if node.right:
+                    a.append(node.right)
+            res.append(temp)
+        return res
+                
+
+
+```
+# 第四十二题
+一个二分+递归构造树的典型 这里是构造一个二叉搜索树
+<img width="1164" height="1090" alt="image" src="https://github.com/user-attachments/assets/4ea5cac4-8d1b-4054-81d8-13a87e2e02cf" />
+还是递归最基本的思路 由于列表已经排序 我们只需要把列表分成左右和中间 中间为根节点 左右分别用递归获得 然后左右根的左右节点
+```python
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        if not nums:
+            return None
+        l=len(nums)
+        node1=self.sortedArrayToBST(nums[:l//2])
+        node2=self.sortedArrayToBST(nums[(l//2)+1:])
+        return TreeNode(nums[l//2],node1,node2)
+
+```
+**注意** 返回的就是单纯一个节点 不是列表
