@@ -820,3 +820,14 @@ class Solution:
 
 ```
 **注意** 返回的就是单纯一个节点 不是列表
+# 第四十三题
+有点陷阱在里面 很恶心 要求的是上面的永远大于下面的（小于 ）因此不能用节点来递归 必需使用数值来递归（不然只会判断一个小子树 而不能保证上面的树一定大于下面的）
+<img width="1419" height="1077" alt="image" src="https://github.com/user-attachments/assets/c92c653e-8225-43d7-9ab7-cc6d37484375" />
+```python
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode],left=-inf,right=inf) -> bool:
+        if not root:
+            return True
+        return left<root.val<right and self.isValidBST(root.left,left,root.val) and self.isValidBST(root.right,root.val,right)
+
+```
