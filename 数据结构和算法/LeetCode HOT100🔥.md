@@ -831,3 +831,7 @@ class Solution:
         return left<root.val<right and self.isValidBST(root.left,left,root.val) and self.isValidBST(root.right,root.val,right)
 
 ```
+# 第四十四题
+很简单的思路 一个二叉树的搜索 要知道的点就是
+
+**只需要中序遍历一个二叉搜索树就可以实现从小到大的排序**
