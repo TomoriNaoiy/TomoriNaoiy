@@ -835,3 +835,36 @@ class Solution:
 很简单的思路 一个二叉树的搜索 要知道的点就是
 
 **只需要中序遍历一个二叉搜索树就可以实现从小到大的排序**
+# 第四十六题
+<img width="1248" height="913" alt="image" src="https://github.com/user-attachments/assets/1a1da63e-f22d-4ce0-a04e-1de0c07ef018" />
+将树转化为链表 
+
+难点在于 这里并不使用next 而是变成了right 也就是多了一个迭代的过程 在前序遍历的过程中 我卡在了究竟是root.right=root.right.left
+还是root.right=root.right.right
+因为在一个函数中无法完成区分 因此这里思路是 通过使用每个函数中的root
+也就是q.right=root这样就不用考虑究竟是left还是right了 
+
+由此学到的一个思路就是 可以通过递归函数的输入值做为一个迭代数（正常思路是将返回值做为数）
+
+这里的递归函数的作用仅仅是进入下一层而已
+```python
+class Solution:
+    def __init__(self):
+        self.k=1
+        self.dummy=TreeNode(-1)
+        self.p=self.dummy
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+       
+        if root:
+            temp1=root.left
+            temp2=root.right
+            self.p.right=root
+            self.p.left=None
+            self.p=root
+            self.flatten(temp1)
+            self.flatten(temp2)
+        
+```
