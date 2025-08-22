@@ -868,3 +868,44 @@ class Solution:
             self.flatten(temp2)
         
 ```
+# 第四十七题
+通过前序和中序遍历构造二叉树 跟之前二分法构造二叉树的思路有异曲同工之妙 但是这里难度更高 因为递归的过程有两个列表的迭代（也就是切片）
+<img width="1208" height="1093" alt="image" src="https://github.com/user-attachments/assets/9f183c64-0a3c-4957-a247-005d97599863" />
+思路就是 前序遍历中的0是根 然后在中序中找到这个值的下标 那么他左边就是左子树 右边就是右子树 这样又回到了递归的子问题思想 就可以用递归解决
+然后每次递归返回切片后的pro和ino列表 最后返回pro【0】，left，right做为一个节点 就完成了递归构造二叉树 和之前的二分非常相似 只是这里的切片就并非中点而是需要主导index寻找
+```python
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if preorder:
+            key=inorder.index(preorder[0])
+            left=self.buildTree(preorder[1:1+key],inorder[:1+key])
+            right=self.buildTree(preorder[key+1:],inorder[key+1:])
+            return TreeNode(preorder[0],left,right)
+```
+# 第是四十八题
+<img width="1245" height="1137" alt="image" src="https://github.com/user-attachments/assets/f3933358-af54-440d-baff-f08da43b2f9b" />
+树上前缀和问题
+
+可以类比之前的序列和为k的问题 思路是通过计算前缀和 然后用哈希表 加上[s-targrt]如果没有就是0 有就会加上个数 然后[s]+=1 把当前节点加上
+
+在这里思路是一致的 只是变成了树上问题 那么就牵扯到两个 一个就是dfs 一个就是回溯
+我们使用前缀和无法保证回到另一条线的时候没有删掉先前的部分 因此在+=1完成之和 进行两次dfs 完成后回溯 把s-=1 这就是总体方案
+```python
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        ans=0
+        cnt=defaultdict(int)
+        cnt[0]=1
+        def dfs(root,s):
+            if root:
+                nonlocal ans
+                s+=root.val
+                ans+=cnt[s-targetSum]
+                cnt[s]+=1
+                dfs(root.left,s)
+                dfs(root.right,s)
+                cnt[s]-=1
+        dfs(root,0)
+        return ans
+```
+
