@@ -909,3 +909,20 @@ class Solution:
         return ans
 ```
 
+# 第四十九题
+一个寻找最小祖先的递归问题 和之前构造邻接矩阵不同 这里给的是已经有的树 需要我们通化递归获得最小祖先 思路就是 递归寻找左右子树 如果左右都有 那么root就是祖先 如果只有左边有 那么第一个左边就是祖先 同理 第一个右边是祖先 然后如果找到了p或者q或者None就返回root
+
+<img width="1295" height="1125" alt="image" src="https://github.com/user-attachments/assets/4b7108f0-e4fd-46e1-8161-60b8332638c2" />
+```python
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if (not root) or (root==p) or (root==q):
+            return root
+        left=self.lowestCommonAncestor(root.left,p,q)
+        right=self.lowestCommonAncestor(root.right,p,q)
+        if left and right:
+            return root
+        if left:
+            return left
+        return right
+```
