@@ -926,3 +926,44 @@ class Solution:
             return left
         return right
 ```
+# 第五十题
+几乎是完全自己写的苦难题了 还是挺有成绩感的 思路和之前直径一样 但是区别于前缀和的那题 前缀思路是dfs递归然后取值并且回溯 而这里的思路则是对于每个节点分别取左右子链 然后每次取最大值 并进行更新 有一个易错点就是都是负数的时候要单独考虑 返回值返回0就行（相当于不取左右子链 只在意自己）
+<img width="1288" height="1195" alt="image" src="https://github.com/user-attachments/assets/67f252d1-dcf0-4cb0-8bbc-5809fac745de" />
+```python
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        ans=-inf
+        def dfs(root,s):
+            if not root:
+                return 0
+            nonlocal ans
+            
+            ll=dfs(root.left,s)
+            rl=dfs(root.right,s)
+            s+=root.val    
+            ans=max(ans,ll+rl+root.val,root.val,root.val+ll,root.val+rl)
+            return max(s+max(ll,rl),0)
+        dfs(root,0)
+        return ans
+```
+# 第五十一题
+是一个做过的题目 只需要dfs把所有1变成 然后寻找所有都是1的部分 每次ans+1就可以 已经可以自己做出来了~
+<img width="1248" height="932" alt="image" src="https://github.com/user-attachments/assets/6c3df9a6-f976-4f2f-aaa9-487abee9cfb1" />
+```python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        ans=0
+        def dfs(x,y):
+            if grid[x][y]=="1":
+                grid[x][y]="2"
+                for i,j in [(1,0),(-1,0),(0,-1),(0,1)]:
+                    if x+i>=0 and x+i<len(grid) and y+j>=0 and y+j<len(grid[0]):
+                        dfs(x+i,y+j)
+            
+        for a in range(len(grid)):
+            for b in range(len(grid[0])):
+                if grid[a][b]=="1":
+                    dfs(a,b)
+                    ans+=1    
+        return ans
+```
