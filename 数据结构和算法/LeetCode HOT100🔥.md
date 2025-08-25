@@ -967,3 +967,34 @@ class Solution:
                     ans+=1    
         return ans
 ```
+# 第五十二题
+一个bfs的题目 大体思路已经能完成了 但是有一点小问题 就是bfs跟递归不一样 不能在函数中调用函数 而是类似与递推的的过程 在循环中每次改变grid 而非函数递归
+![Uploading 54de8f80933dff6d50fba502cda36bc8.png…]()
+```python
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        queue=deque()
+        ans=-1
+        num=0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j]==2:
+                    queue.append((i,j))
+                if grid[i][j]==1:
+                    num+=1
+        if num==0:
+            return 0
+        while queue:
+            
+            ans+=1
+            for _ in range(len(queue)):
+                a,b=queue.popleft()
+                for p,q in [(1,0),(0,1),(-1,0),(0,-1)]:
+                        if a+p>=0 and a+p<len(grid) and b+q>=0 and b+q<len(grid[0]):
+                            if grid[a+p][b+q]==1:
+                                grid[a+p][b+q]=2
+                                num-=1
+                                queue.append((a+p,b+q))
+        
+        return ans if num==0 else -1
+```
