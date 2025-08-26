@@ -1000,6 +1000,7 @@ class Solution:
 ```
 # 第五十三题
 这题很明显是一个拓扑排序 什么是拓扑排序呢 就是一个有向无环图中 使其排序为前驱-》后继的线性排序 也就是确保依赖关系（入度少的在前面）
+
 在这一题中 很明显所有前者都是后继 因此我们通过拓扑排序 分别将入度和图存入列表和字典中 在这里 先通过bfs 每次学习入度为0的点 也就是通过队列 将入度为0的点入列 然后每次把这些点学习后 num-=1 再把后继的入度减掉 再放入入度为0的点 知道队列空 看是否全部学习 不然就返回false（入度只跟前后级有关系 和其他部分无关）
 <img width="1254" height="913" alt="image" src="https://github.com/user-attachments/assets/918cd5f9-e064-4ad1-a00a-0c28fa279005" />
 ```python
@@ -1023,4 +1024,49 @@ class Solution:
                     if indegree[cur]==0:
                         q.append(cur)
         return numCourses==0
+```
+# 第五十四题 
+前缀树 实际上就是字典树 用于查找是否前缀
+
+做法就是做一个链表 每一个链表都有26个方向（实际上做成字典就行） 然后每个字符依次遍历 从根开始 每次走向字典从存储的方向（字典中存的都是node节点 都有字典） 如果字典中找不到这个方向 说明不是前缀 要么insert插入 要么返回False
+<img width="1219" height="1133" alt="image" src="https://github.com/user-attachments/assets/b23f0952-1174-4d7e-8ce5-97658f1b770e" />
+```python
+class node:
+    def __init__(self):
+        self.son={}
+        self.end=False
+class Trie:
+
+    def __init__(self):
+        self.root=node()
+
+    def insert(self, word: str) -> None:
+        cur=self.root
+        for c in word:
+            if c not in cur.son:
+                cur.son[c]=node()
+            cur=cur.son[c]
+        cur.end=True
+    def search(self, word: str) -> bool:
+        cur = self.root
+        for c in word:
+            if c not in cur.son:
+                return False
+            cur=cur.son[c]
+        return True if cur.end else False
+
+    def startsWith(self, prefix: str) -> bool:
+        cur=self.root
+        for c in prefix:
+            if c not in cur.son:
+                return False
+            cur=cur.son[c]
+        return True
+
+
+# Your Trie object will be instantiated and called as such:
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.search(word)
+# param_3 = obj.startsWith(prefix)
 ```
