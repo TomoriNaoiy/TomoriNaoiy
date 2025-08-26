@@ -998,3 +998,29 @@ class Solution:
         
         return ans if num==0 else -1
 ```
+# 第五十三题
+这题很明显是一个拓扑排序 什么是拓扑排序呢 就是一个有向无环图中 使其排序为前驱-》后继的线性排序 也就是确保依赖关系（入度少的在前面）
+在这一题中 很明显所有前者都是后继 因此我们通过拓扑排序 分别将入度和图存入列表和字典中 在这里 先通过bfs 每次学习入度为0的点 也就是通过队列 将入度为0的点入列 然后每次把这些点学习后 num-=1 再把后继的入度减掉 再放入入度为0的点 知道队列空 看是否全部学习 不然就返回false（入度只跟前后级有关系 和其他部分无关）
+<img width="1254" height="913" alt="image" src="https://github.com/user-attachments/assets/918cd5f9-e064-4ad1-a00a-0c28fa279005" />
+```python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        indegree=[0 for _ in range(numCourses)]
+        ans=defaultdict(list)
+        for cur,pre in prerequisites:
+            indegree[cur]+=1
+            ans[pre].append(cur)
+        q=deque()
+        for i in range(numCourses):
+            if indegree[i]==0:
+                q.append(i)
+        while q:
+            for i in range(len(q)):
+                pre=q.popleft()
+                numCourses-=1
+                for cur in ans[pre]:
+                    indegree[cur]-=1
+                    if indegree[cur]==0:
+                        q.append(cur)
+        return numCourses==0
+```
