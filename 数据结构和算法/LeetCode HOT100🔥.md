@@ -1100,3 +1100,26 @@ class Solution:
         dfs()
         return self.ans
 ```
+# 第五十六题
+<img width="1171" height="673" alt="image" src="https://github.com/user-attachments/assets/30b08ec3-c345-4fc0-809f-5681e34e5f5b" />
+又是回溯题 和上面那题很像 但又有区分 这一题的思路是 每次递归都加入ans 但是函数多了一个参数j 每次j+1 （之前是都要从头遍历 因为都是l长度） 这样就会先把每一个数字放入 然后到最后一个的时候 pop掉 回到倒数第二个函数 然后进行循环 放入循环的下一个数 放完后又pop 然后进入倒数第三个循环 再循环放入下一个数 因此复杂度也是o（n！）
+
+**注意**再ans里面append列表的时候 一定是copy的 因为直接放列表的话 相当于放入地址 之后改变的时候会一起改变
+```python
+class Solution:
+    def __init__(self):
+        self.ans=[]
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        temp=[]
+        def dfs(i):
+            self.ans.append(temp.copy())
+            for j in range(i,len(nums)):
+                temp.append(nums[j])
+                dfs(j+1)
+                temp.pop()
+        dfs(0)
+
+
+
+        return self.ans
+```
