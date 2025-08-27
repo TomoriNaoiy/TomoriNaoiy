@@ -1124,6 +1124,7 @@ class Solution:
         return self.ans
 ```
 # 第五十六题
+<img width="1191" height="1044" alt="image" src="https://github.com/user-attachments/assets/ffb28eb9-d128-4b2e-9699-3957e1e11271" />
 
 完完全全自己做出来的！！爽了
 
