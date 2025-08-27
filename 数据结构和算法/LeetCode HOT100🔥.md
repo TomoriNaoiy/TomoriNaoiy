@@ -1123,3 +1123,30 @@ class Solution:
 
         return self.ans
 ```
+# 第五十六题
+
+完完全全自己做出来的！！爽了
+
+还是经典回溯 但是这题需要用到两次遍历 第一次还是正常的通过传入i参数进行递归 然后在每个数字中进行遍历 遍历的同时进行回溯 就能完成 
+```python
+class Solution:
+    def __init__(self):
+        self.ans=[]
+        self.dc={"2":["a","b","c"],"3":["d","e","f"],"4":["g","h","i"],"5":["j","k","l"],"6":["m","n","o"],"7":["p","q","r","s"],"8":["t","u","v"],"9":["w","x","y","z"]}
+    def letterCombinations(self, digits: str) -> List[str]:
+        if digits=="":
+            return []
+        s=[]
+        def dfs(i):
+            if len(digits)==len(s):
+                self.ans.append(''.join(s))
+                return
+            for j in range(i,len(digits)):
+                for k in self.dc[digits[j]]:
+                    s.append(k)
+                    dfs(j+1)
+                    s.pop()
+        dfs(0)
+        return self.ans
+
+```
