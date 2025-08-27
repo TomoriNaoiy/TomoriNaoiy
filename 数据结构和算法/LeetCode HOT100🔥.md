@@ -1070,3 +1070,33 @@ class Trie:
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
 ```
+# 第五十五题
+<img width="1108" height="704" alt="image" src="https://github.com/user-attachments/assets/0b296af4-8ca6-4f12-b639-e2df7331d28a" />
+回溯题 
+
+讲到回溯 其实dfs根回溯非常相似 都是一条路走到黑 然后退回第一个有分支的路 再走下去 再退回 而回溯和dfs的最大区别就是 回溯多了一个状态重置的过程 因此他们用来应对的题目不同 dfs是遍历 而回溯是搜索
+
+这一题的思路是给一个temp列表 如果长度和nums相同就直接加入ans中 并且结束这一次递归 如果少的话 就进入一个循环 把还没用过的元素依次加入temp中 然后给他已用过的标记 然后递归 这时都是已经被标记的 就会继续寻找没被标记过的 然后完成后回溯 先把这个踢出去 然后把这个元素使用过的标签改为False 再进入下一次循环 就会用下一个数 然后再寻找没用过的数 以此类推
+```python
+class Solution:
+    def __init__(self):
+        self.ans=[]
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        l=len(nums)
+        used=[False for _ in range(l)]
+        path=[]
+        def dfs():
+            if len(path)==l:
+                self.ans.append(path.copy())
+                return
+            for i,j in enumerate(nums):
+                if used[i]==True:
+                    continue
+                path.append(j)
+                used[i]=True
+                dfs()
+                path.pop()
+                used[i]=False
+        dfs()
+        return self.ans
+```
