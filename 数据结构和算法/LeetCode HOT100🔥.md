@@ -1212,3 +1212,40 @@ class Solution:
 
 #(((()
 ```
+# 第六十题 
+一个dfs加回溯题 之前遇到但是不会写 现在以及可以独立完成了 还是有很不错的提升
+<img width="1151" height="1144" alt="image" src="https://github.com/user-attachments/assets/6b3030b8-6e83-42db-b532-e689971ec486" />
+思路就是正常dfs 如果符合 就下一次dfs 并且index+1
+
+然后外界寻找首位开始递归
+
+回溯的部分通过标记（1） 然后递归完又变回0
+```python
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        grid=[[0 for _ in range(len(board[0])+1)] for _ in range(len(board)+1)]
+        flag=False
+        def dfs(x,y,index):
+            nonlocal flag
+            for i,j in [(-1,0),(0,1),(1,0),(0,-1)]:
+                if index<len(word) and x+i>=0 and x+i<len(board) and y+j>=0 and y+j<len(board[0]) and board[x+i][y+j]==word[index] and grid[x+i][y+j]==0:
+                    grid[x+i][y+j]=1
+                    #print(board[x+i][y+j],index)
+                    if index==len(word)-1:
+                        flag=True
+                        return
+                    dfs(x+i,y+j,index+1)
+                    grid[x+i][y+j]=0
+        for a in range(len(board)):
+            for b in range(len(board[0])):
+                if flag:
+                    return flag
+                if len(word)==1:
+                    if board[a][b]==word[0]:
+                        flag=True
+                if board[a][b]==word[0]:
+                    grid[a][b]=1
+                    dfs(a,b,1)
+                    grid=[[0 for _ in range(len(board[0])+1)] for _ in range(len(board)+1)]
+        return flag
+```
