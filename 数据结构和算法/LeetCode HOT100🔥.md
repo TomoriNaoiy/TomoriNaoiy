@@ -1151,3 +1151,32 @@ class Solution:
         return self.ans
 
 ```
+# 第五十七题
+又是自己做出来的回溯题 其实类型都差不多了 但时这一题多了一个减枝以及一个小判断 
+<img width="1240" height="982" alt="image" src="https://github.com/user-attachments/assets/c48e3a74-e465-41c7-b39c-fcf8b86f074b" />
+这题和之前的区别是 之前如果是不重复的（子集） 每次递归要返回一个j+1也就是进入下一个 如果是排序就不用 但是不能出现重复 因此使用bool进行判断 这一题则完全可以重复 但是是集合不能有顺序不同的相同元素 因此我们也加一个小判断（以大小判断） 并且返回一个s和 并且进行一个剪枝 就能完成了
+```python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        ans=[]
+        temp=[]
+        #candidates.sort()
+        s=0
+        def dfs(s):
+            #nonlocal s
+            if s>target:
+                return
+            if s==target:
+                ans.append(temp.copy())
+                return
+            for i in range(len(candidates)):
+                if (not temp) or (temp and candidates[i]>=temp[-1]):
+                    s+=candidates[i]
+                    temp.append(candidates[i])
+                    dfs(s)
+                    temp.pop()
+                    s-=candidates[i]
+        dfs(0)
+        return ans
+```
+
