@@ -1179,4 +1179,36 @@ class Solution:
         dfs(0)
         return ans
 ```
+# 第五十九题
+括号添加题 我之前把他想复杂了 实际上构造的时候（不是检验）只需要满足左括号数量等于右括号数量就可以了（先放左后放右）
+用回溯来做同样是如果left《n 就不断放左 然后如果大于n了 开始判断left和right的关系 开始放右括号 然后一个个减掉 右回到最开始 然后第二阶段判断左和右的关系 在进行一次循环 以此类推
+一开始是（（（（（）））））
 
+第二阶段是（）（（（（（）））
+
+然后（）（）（（（）））
+
+<img width="1253" height="725" alt="image" src="https://github.com/user-attachments/assets/6ac61896-b53e-42eb-96fa-16ff53b5e1f5" />
+```python
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans=[]
+        temp=[]
+        
+        def dfs(left,right):
+            if len(temp)==2*n:
+                ans.append(''.join(temp))
+                return
+            if left<n:
+                temp.append("(")
+                dfs(left+1,right)
+                temp.pop()
+            if left>right:
+                temp.append(")")
+                dfs(left,right+1)
+                temp.pop()
+        dfs(0,0)
+        return ans
+
+#(((()
+```
