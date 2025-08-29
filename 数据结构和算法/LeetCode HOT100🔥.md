@@ -1249,3 +1249,27 @@ class Solution:
                     grid=[[0 for _ in range(len(board[0])+1)] for _ in range(len(board)+1)]
         return flag
 ```
+# 第六十一题
+又是回溯 但是以及基本掌握了 通过这几题 大概掌握了回溯的一个用途
+<img width="1353" height="1035" alt="image" src="https://github.com/user-attachments/assets/e0f973b2-fe49-4766-b21d-46623429f27e" />
+```python
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        ans=[]
+        temp=[]
+        def dfs(index):
+            #print(index)
+            if index==len(s):
+                ans.append(temp.copy())
+                return            
+            for i in range(index,len(s)):
+
+                t=s[index:i+1]
+                if t==t[::-1]:
+                    temp.append(t)
+                    dfs(i+1)
+                    temp.pop()
+        dfs(0)
+        return ans
+```
+**遇到这种子集 排列/组合 前缀类型的题目（需要反复遍历的类型）就使用回溯法**
