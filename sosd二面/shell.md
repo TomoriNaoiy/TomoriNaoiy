@@ -1,7 +1,7 @@
 # shell学习
 首先 第一部也是最重要的一部 在wsl上面写脚本
-```
 下载完wsl 想要运行
+```
 wsl
 ```
 发现
@@ -152,4 +152,5 @@ find . -type f -print0 | xargs -0 ls -lt | head -1
 # 按修改时间 只需要通过 head -1即可
 ```
 <img width="1340" height="56" alt="image" src="https://github.com/user-attachments/assets/a3817de7-3465-46f0-9e2e-49be1bd2e63f" />
+
 
