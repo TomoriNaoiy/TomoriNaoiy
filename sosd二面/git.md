@@ -2,7 +2,7 @@
 
 在sosd的二轮面试中 开始进行对git的学习 此前主要学习对git的各种方法的使用 这边通过[note](https://missing-semester-cn.github.io/2020/version-control/)进行理论学习
 
-**由于对git使用已经较为熟练 这边就跳过练习部分 记录一些概念性的东西已经一些key**
+**由于对git使用已经较为熟练 这边就跳过练习部分 记录一些概念性的东西以及一些key**
 # git的提交是一个有向无环图
 <img width="1071" height="186" alt="image" src="https://github.com/user-attachments/assets/e15a8f65-9f3e-4f2a-a18a-79e8848d1690" />
 其中 每个o就是一次提交
@@ -40,5 +40,6 @@
 
 - push的文件记得save 不然上传的就是没改的！
 - fatal: unable to access 'https://github.com/TomoriNaoiy/collection-ai/': Failed to connect to github.com port 443 after 21060 ms: Could not connect to server这个报错是网络问题 开个加速器就行
+
 
 
