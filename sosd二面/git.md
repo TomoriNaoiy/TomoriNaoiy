@@ -15,7 +15,7 @@
 
 例如，考虑如下场景，您开发了两个独立的特性，然后您希望创建两个独立的提交，其中第一个提交仅包含第一个特性，而第二个提交仅包含第二个特性。或者，假设您在调试代码时添加了很多打印语句，然后您仅仅希望提交和修复 bug 相关的代码而丢弃所有的打印语句。
 
-概念差不多就这些 接下来记录一下一些用法
+# 概念差不多就这些 接下来记录一下一些用法
 
 - git help <command>: 获取 git 命令的帮助信息
 - git init: 创建一个新的 git 仓库，其数据会存放在一个名为 .git 的目录下
@@ -39,3 +39,4 @@
 
 - push的文件记得save 不然上传的就是没改的！
 - fatal: unable to access 'https://github.com/TomoriNaoiy/collection-ai/': Failed to connect to github.com port 443 after 21060 ms: Could not connect to server这个报错是网络问题 开个加速器就行
+
