@@ -1327,3 +1327,32 @@ class Solution:
         return mi
 
 ```
+
+# 七十题
+<img width="1045" height="1125" alt="image" src="https://github.com/user-attachments/assets/971d3b5c-9035-4bf5-9a99-b7f51ea1766e" />
+很有趣的一题 用数组模拟栈 但有需要o（1）复杂度获得最小值 因此我们自然而然的思路是 从一开始输入第一个值就一直维护当前最小栈值 并用元组存入  
+**你可以在担心 如果出栈了某个元素 那我之前维护的值不会丢失吗**
+
+这就是栈的性质了 后进先出 因此pop掉的刚好是最新维护的值 pop出去之后 就是次维护的值 刚好是剩下的区间的最小值
+
+**很奇妙的一题** 看起来只是简单的加入了维护 但实际上巧妙的利用了栈的性质
+```python
+class MinStack:
+
+    def __init__(self):
+        self.nums=[(0,inf)]
+
+    def push(self, val: int) -> None:
+        self.nums.append((val,min(self.nums[-1][1],val)))
+        
+
+    def pop(self) -> None:
+        temp=self.nums.pop()
+
+    def top(self) -> int:
+        return self.nums[-1][0]
+
+    def getMin(self) -> int:
+        return self.nums[-1][1]
+```
+
