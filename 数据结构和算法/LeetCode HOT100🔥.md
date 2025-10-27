@@ -1273,3 +1273,35 @@ class Solution:
         return ans
 ```
 **遇到这种子集 排列/组合 前缀类型的题目（需要反复遍历的类型）就使用回溯法**
+
+#  六十六题 
+<img width="1069" height="954" alt="image" src="https://github.com/user-attachments/assets/f46e96e2-bd0f-416d-9b1d-0d817e801bfa" />
+二分 但是局部单调
+
+思路是  在二分的同时寻找单调的部分 然后在单调的部分进行二分
+
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        left,right=0,len(nums)-1
+        mid=(left+right)//2
+        while left<=right:
+            mid=(left+right)//2
+            if nums[mid]>=nums[left]:
+                if target==nums[mid]:
+                    return mid
+                elif nums[left]<=target<nums[mid]:
+                    right=mid-1
+                else:
+                    left=mid+1
+            elif nums[mid]<=nums[left]:
+                if target==nums[mid]:
+                    return mid
+                elif nums[mid]<target<=nums[right]:
+                    left=mid+1
+                else:
+                    right=mid-1
+        return mid if nums[mid]==target else -1
+
+```
+
