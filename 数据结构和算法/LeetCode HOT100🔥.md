@@ -1305,3 +1305,25 @@ class Solution:
 
 ```
 
+# 六十七题
+<img width="1030" height="591" alt="image" src="https://github.com/user-attachments/assets/858cff0d-6410-47d8-9926-25e67d4fd417" />
+同样的部分单调二分法 思路一样 类比一下
+首先left和mid比 如果mid大于left 说明左边是单调 mi给left  
+如果left比mid大 说明右边单调 则把mi给mid 然后观察左边
+```python
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        left,right=0,len(nums)-1
+        mid=(left+right)//2
+        mi=float('inf')
+        while left<=right:
+            mid=(left+right)//2
+            if nums[mid]>=nums[left]:
+                mi=min(mi,nums[left])
+                left=mid+1
+            elif nums[mid]<=nums[left]:
+                mi=min(mi,nums[mid])
+                right=mid-1
+        return mi
+
+```
