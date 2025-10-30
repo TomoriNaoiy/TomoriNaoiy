@@ -1356,3 +1356,32 @@ class MinStack:
         return self.nums[-1][1]
 ```
 
+# 第七十一题
+<img width="1038" height="516" alt="image" src="https://github.com/user-attachments/assets/7b4c8556-3374-470a-b48b-6c0cbf145938" />
+栈的题目 但是很明显用递归更好解决
+
+一开始使用递推 但是遇到嵌套列表就无法解决  
+然后使用递归一开始想的是 遇到列表就往里面传 但是太麻烦了 最后看了题解的想法是 通过切片字符串进行递归 然后每次遇到列表就把大的列表放入递归 然后同时递归列表后面的内容（优先嵌套 然后才是接下去）
+```py
+self.decodeString(s[i+1:j])*int(s[:i])+self.decodeString(s[j+1:])
+```
+写成这样
+
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        if not s:
+            return s
+        if s[0].isalpha():
+            return s[0]+self.decodeString(s[1:])
+        i=s.find('[')
+        balance=1
+        for j in count(i+1):
+            if s[j]=='[':
+                balance+=1
+            elif s[j]=="]":
+                balance-=1
+                if balance==0:
+                    return self.decodeString(s[i+1:j])*int(s[:i])+self.decodeString(s[j+1:])
+```
+
