@@ -1406,3 +1406,39 @@ class Solution:
             stack.append((v,i))
         return ans  
 ```
+
+# 第七十三题
+
+<img width="1008" height="915" alt="image" src="https://github.com/user-attachments/assets/2977bc1d-a156-4015-9ff7-44706b947532" />
+
+依旧单调栈 甚至难度小于之前学校给的题目（学校里面要求区间和 还需要加一个前缀和优化）
+
+思路 与其遍历每个区间 不如固定一个值 找到最大区间 通过单调栈 完成对left和right的标记 然后遍历每个值 乘以其最大区间长度即可
+
+```python
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        l=len(heights)
+        stack=[]
+        left=[0 for i in range(l)]
+        right=[l-1 for i in range(l)]
+        for i in range(l):
+            while stack and (heights[i]<stack[-1][0]):
+                right[stack[-1][1]]=i-1
+                stack.pop()
+            stack.append((heights[i],i))
+        stack=[]
+        for i in range(l-1,-1,-1):
+            while stack and (heights[i]<stack[-1][0]):
+                left[stack[-1][1]]=i+1
+                stack.pop()
+            stack.append((heights[i],i))
+        ans=-inf
+        for i,v in enumerate(heights):
+            ans=max(ans,v*(right[i]-left[i]+1))
+        print(left,right)    
+            
+        return ans
+        
+```
+
