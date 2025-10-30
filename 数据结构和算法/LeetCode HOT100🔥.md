@@ -1385,3 +1385,22 @@ class Solution:
                     return self.decodeString(s[i+1:j])*int(s[:i])+self.decodeString(s[j+1:])
 ```
 
+# 第七十二题
+<img width="1049" height="952" alt="image" src="https://github.com/user-attachments/assets/98d9793e-db41-4265-ba90-919033b3d0b6" />
+
+非常基础的一道单调栈（没想到第一次写单调栈居然不是在力扣而是在课堂hhh没绷住）
+
+以及有经验了 写起来当然得心应手
+```python
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        l=len(temperatures)
+        stack=[]
+        ans=[0 for i in range(l)]
+        for i,v in enumerate(temperatures):
+            while stack and (v>stack[-1][0]):
+                ans[stack[-1][1]]=i-stack[-1][1]
+                stack.pop()
+            stack.append((v,i))
+        return ans  
+```
