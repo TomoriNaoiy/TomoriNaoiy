@@ -1391,6 +1391,8 @@ class Solution:
 非常基础的一道单调栈（没想到第一次写单调栈居然不是在力扣而是在课堂hhh没绷住）
 
 以及有经验了 写起来当然得心应手
+
+思路就是遇到大于栈顶元素 就放入ans 然后不断pop 直到小于 再放入栈即可
 ```python
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
