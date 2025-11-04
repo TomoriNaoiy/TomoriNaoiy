@@ -1441,4 +1441,30 @@ class Solution:
         return ans
         
 ```
+# 第74题
+<img width="965" height="652" alt="image" src="https://github.com/user-attachments/assets/e4553267-ca57-4d51-acfe-77f51e3a0b7c" />
 
+数组中选第k小的值 需要O（n）复杂度
+
+题解的做法是快速排序选择 但是我看到评论区有用桶排序的做法 感觉很厉害
+```python
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        ma=max(nums)
+        mi=min(nums)
+        has=defaultdict(int)
+        count=0
+        for i in nums:
+            has[i]+=1
+        for i in range(ma,mi-1,-1):
+            count+=has[i]
+            if count>=k:
+                return i
+```
+原理是通过构造一个default字典 然后找到最大值和最小值 从大往小遍历 遇到几个就加几个（桶排序适用于计数 因此面对这种求第k个大小的题目很适配）
+
+每次加上has[i] 如果没有这个数就是+0 然后  
+if >=k 说明一个桶里面可能有多个数 因此超出了也是放这个数出来
+
+**总结**  
+桶排序适用于计数（第k个数 ）而非排序 并且需要最大值不太大的 否则空间消耗过大
