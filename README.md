@@ -12,30 +12,31 @@
 
 ---
 *已经完成的课程*
-- CS231N 
-- CS224N
-- CS50
+- **CS231N** 
+- **CS224N**
+- **CS50**
 <img width="2112" height="1632" alt="CS50x" src="https://github.com/user-attachments/assets/23f2d9bd-0161-4152-8a8f-5cf4cc985d24" />
 
 ---
 # 完成的项目
-## CV
-- 🔭**视频实时识别**：
-  - 以YOLOv8为核心
-  - 凭借flask以及部分前端技术
-  - 轻量级web应用
-## NLP
+## 计算机视觉
+- 🔭[**视频实时识别**]('https://github.com/TomoriNaoiy/TomoriNaoiy/tree/main/yolo%2Bweb%E5%AE%9E%E6%88%98')：
+  - YOLOv8
+  - flask
+  - html+js+css
+  - *轻量级web应用*
+## LLM
 - ⚡**语言问答系统（ing）**:
-  - 以Transformer架构
-  - 使用多模态输入（图像、语音）
+  - **Transformer**
+  - 多模态输入（图像、语音）
   - LLM Agent 调度
-  - 后端使用FASTAPI
-  - 前端以HTML+js
+  - 后端: FASTAPI
+  - 前端: HTML+js
 ## 有趣的小玩意儿（？
-- 🧩 **魂斗罗**：
+- 🧩 [**魂斗罗**]("https://github.com/TomoriNaoiy/TomoriNaoiy/tree/main/%E9%AD%82%E6%96%97%E7%BD%97/%E9%AD%82%E6%96%97%E7%BD%97")：
   - pygame做的动画小游戏
 
 ---
-⚔️ **正在研究 深度学习**
+⚔️ ## **正在研究 深度学习**
 
 # “成为压倒性的第一.”
