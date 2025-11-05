@@ -1468,3 +1468,36 @@ if >=k 说明一个桶里面可能有多个数 因此超出了也是放这个数
 
 **总结**  
 桶排序适用于计数（第k个数 ）而非排序 并且需要最大值不太大的 否则空间消耗过大
+
+# 第75题
+<img width="1059" height="816" alt="image" src="https://github.com/user-attachments/assets/908dc7ba-a87c-48b2-88d5-8c020c521c04" />
+依旧桶排序 遇到前k个直接硬套 复杂度可以在o（n）
+
+思路是 先统计每个数的次数 然后反过来将字典key当作次数 将value当作出现的数 再利用桶排序从大到小遍历的性质 将值输出
+
+用到一个比较好玩的地方就是extend 直接将列表列入而不是append嵌套 还有使用了defaultdict（list）
+
+**想说的是 我现在对于列表推导式依旧运用的如火纯青啦**
+```python
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        has=defaultdict(int)
+        ans=[]
+        count=0
+        for i in nums:
+            has[i]+=1
+        arr=[(i,has[i]) for i in has.keys()]
+        arr_temp=[i[1] for i in arr]
+        print(arr,arr_temp)
+        has2=defaultdict(list)
+        ma=max(arr_temp)
+        mi=min(arr_temp)
+        for i,v in arr:
+            has2[v].append(i)
+        print(has2)
+        for i in range(ma,mi-1,-1):
+            ans.extend(has2[i])
+            count=len(ans)
+            if count>=k:
+                return ans
+```
