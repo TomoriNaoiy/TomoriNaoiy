@@ -1501,3 +1501,40 @@ class Solution:
             if count>=k:
                 return ans
 ```
+# 第76题
+<img width="1010" height="1072" alt="image" src="https://github.com/user-attachments/assets/9ccdee02-d2ba-47c0-9b80-41101ac2b5f9" />
+中位数 做法就是分成两个区间 保证左边小于右边 并且左边永远和右边个数相等或者多一
+
+如何维护区间呢 使用两个堆 一个最小一个最大（没有最大堆 我们在传入时使用负值）
+
+如果相等 那么就先放右 然后把右边的最小值拿出来 放到左边 保证相等
+
+如果不等 就放左 然后把左边最大值拿出来 放右边 保证多一
+
+这样不断维护最值即可
+```python
+class MedianFinder:
+
+    def __init__(self):
+        self.left=[]
+        self.right=[]
+
+
+    def addNum(self, num: int) -> None:
+        if len(self.left)==len(self.right):
+            heappush(self.left,-heappushpop(self.right,num))
+        else:
+            heappush(self.right,-heappushpop(self.left,-num))
+
+    def findMedian(self) -> float:
+        if len(self.left)>len(self.right):
+            return -self.left[0]
+        return (self.right[0]-self.left[0])/2
+
+
+# Your MedianFinder object will be instantiated and called as such:
+# obj = MedianFinder()
+# obj.addNum(num)
+# param_2 = obj.findMedian()
+```
+
