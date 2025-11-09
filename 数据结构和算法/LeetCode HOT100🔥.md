@@ -1537,4 +1537,18 @@ class MedianFinder:
 # obj.addNum(num)
 # param_2 = obj.findMedian()
 ```
+# 第77题
+<img width="1047" height="783" alt="image" src="https://github.com/user-attachments/assets/c9c1cd65-be3c-4abc-a7c0-ce4a80e36e5f" />
+终于到贪心了 但是实际上跟贪心没啥关系 主要思路是 一次的遍历中不断维护最小值和最大答案
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        ans=0
+        mi=prices[0]
+        for i in prices:
+            ans=max(ans,i-mi)
+            mi=min(mi,i)
+        return ans
+```
+其实我总结了一下 贪心的思想很可能就是 从一个是两个都在动的变量 转化成固定一个值 然后遍历该数组 在这道题的体现就是 遍历的过程中维护最小值 然后每到一个值就减去这个最小值 从而得到答案
 
