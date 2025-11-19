@@ -1551,4 +1551,20 @@ class Solution:
         return ans
 ```
 其实我总结了一下 贪心的思想很可能就是 从一个是两个都在动的变量 转化成固定一个值 然后遍历该数组 在这道题的体现就是 遍历的过程中维护最小值 然后每到一个值就减去这个最小值 从而得到答案
+# 第78题 
+<img width="1068" height="741" alt="image" src="https://github.com/user-attachments/assets/16fedd61-c596-4140-a92b-82a09eb5288f" />
+依旧是一个贪心 总结一下 依旧是在单次的遍历中 通过a=max(a,x)来维护一个值 从而实现某些想法（贪心思想）  
+这一题的想法是 遍历每一个位置 同时维护能够到达的最远位置 知道最远位置比当前位置小 则不能继续向前
+
+```python
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        goto=0
+        for i,v in enumerate(nums):
+            goto=max(goto,i+v)
+            if goto<=i and i!=len(nums)-1:
+                return False
+        return True
+```
+代码非常简单
 
