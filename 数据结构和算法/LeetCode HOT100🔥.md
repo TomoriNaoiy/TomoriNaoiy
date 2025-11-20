@@ -1,5 +1,5 @@
-算法的学习已经有一点点基础了 在大二开始前先试试能否完成力扣HOT100 提升算法能力！
-==============================
+**算法的学习已经有一点点基础了 在大二开始前先试试能否完成力扣HOT100 提升算法能力！**
+
 
 # 1. 两数之和 
 
@@ -1567,4 +1567,25 @@ class Solution:
         return True
 ```
 代码非常简单
+
+# 第79题
+<img width="1117" height="919" alt="image" src="https://github.com/user-attachments/assets/408c4cd6-d35f-464b-9f82-aab02e1ff4d7" />
+前一题的升级版 前一题要求是是否能达到最后一点 这一题要求的是最小步数 难度更高 但依旧是贪心
+
+思路是 依旧维护最远到达的距离 难点在于何时需要增加步数 这里的方法是 维护一个目前最远位置 一但到达这个最远位置 步数就要+1 然后当前位置就会变成最远位置 很有趣的思路
+```python
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        goto=0
+        times=0
+        cur=0
+        for i,v in enumerate(nums):
+            if i==len(nums)-1:
+                break
+            goto=max(goto,i+v)
+            if cur==i:
+                times+=1
+                cur=goto
+        return times
+```
 
