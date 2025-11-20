@@ -1589,3 +1589,27 @@ class Solution:
         return times
 ```
 
+# 第80题！！
+<img width="1121" height="842" alt="image" src="https://github.com/user-attachments/assets/4a664428-1dbe-4a60-b6be-f18e33514e07" />
+
+依旧是贪心  这题的问题在于如何灵活计算区间 其实实路跟前一题基本一致 首先需要遍历一遍s 获得每个元素最后出现的坐标 这里用了很巧妙的字典推导式
+```python
+last={c:i for i,c in enumerate(s)} #这样一次遍历 就可以获得每个字母最后出现的地方 那么接下来就清晰了
+```
+贪心 遍历一遍s 然后维护最大区间（当这个区间里面的所有字母的形成的最大区间 也就是 i==end）
+
+然后把这个区间大小保留 然后start变成end+1(对下一个区间进行遍历)
+
+```python
+class Solution:
+    def partitionLabels(self, s: str) -> List[int]:
+        last={c:i for i,c in enumerate(s)}
+        start=end=0
+        ans=[]
+        for i,c in enumerate(s):
+            end=max(end,last[c])
+            if end==i:
+                ans.append(end-start+1)
+                start=end+1
+        return ans
+```
