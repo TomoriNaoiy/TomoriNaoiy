@@ -1613,3 +1613,22 @@ class Solution:
                 start=end+1
         return ans
 ```
+
+# 第八十三题
+<img width="311" height="37" alt="image" src="https://github.com/user-attachments/assets/2802cef5-42eb-463e-938f-3ab9825264f9" />
+终于进入动态规划了 第一题简单题就难住了 思考不出来动态转移方程 最后看题解想到 
+
+**遍历每一个数 并且f[i+2]=max(f[i+1],f[i]+num[i+2])** 最后返回的是f[-1]
+
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        f=[0 for _ in range(len(nums)+2)]
+        for i,v in enumerate(nums):
+            f[i+2]=max(f[i+1],f[i]+v)
+        return f[-1]
+        
+```
+遇到这种有条件的选择动态规划 没有明确终点的话 一般就从头dp到结尾 然后通过max或者min进行选择
+
+
