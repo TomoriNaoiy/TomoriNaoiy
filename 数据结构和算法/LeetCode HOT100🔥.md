@@ -1679,6 +1679,8 @@ class Solution:
 我的做法方向有些问题 我执着于用dp来拼接这个字符串  
 但是最后的结果是无法遍历每一个方法 也就是无法完全利用dp的递推特性  
 题解的做法是 dp做为一个节点 如果可以 这个节点就是True 也就是dp[index:i]里面的index  
+
+
 ```python
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
