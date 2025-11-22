@@ -1633,4 +1633,24 @@ class Solution:
 
 **这里有一个思维点： 就是无论是选择前一个还是另一个 到当前这个都是最优的 也就是状态归零 只需要考虑之后而不用考虑先前是怎么做的 这就是动态规划**
 
+# 第八十四题
+<img width="1089" height="857" alt="image" src="https://github.com/user-attachments/assets/d900e167-6619-40db-89d4-fb271eb237dc" />
+依旧动态规划 这一题是“完全背包”问题 做法是二层dp 一层dp递推 一层dp维护最小值的做法 首先dp[i]依旧是每一个n的最小数 而贪心则是多一个循环在内部 从1到n 里面是完全平方数 然后在这个循环中 对dp[i]维护
+
+状态转移方程是 
+```python
+dp[i]=min(dp[i],dp[i-j*j]+1)# 这里里面依旧是dp[i]因为在内层循环中对每个数进行dp 同时运用了背包问题的思路 
+```
+状态转移方程就是背包问题的核心 因为现在不仅仅是爬梯子的n-1和n-2两种的迭代 而是其中-k 这个k也变成了一个变量 但是在dp中 只要是之前的量 都是可以“回溯”的 因此我们是dp[i-j*j]+1 想当与先前的这个最优值再加上一步和现在的比 这是核心思想
+
+```python
+class Solution:
+    def numSquares(self, n: int) -> int:
+        dp = [float('inf')]*(n+1)
+        dp[0] = 0
+        for i in range(1,n+1):
+            for j in range(1,int(i**0.5)+1):
+                dp[i] = min(dp[i],dp[i-j*j]+1)
+        return dp[n]
+```
 
