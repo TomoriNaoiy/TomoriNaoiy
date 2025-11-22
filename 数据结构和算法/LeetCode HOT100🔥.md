@@ -1653,4 +1653,23 @@ class Solution:
                 dp[i] = min(dp[i],dp[i-j*j]+1)
         return dp[n]
 ```
+# 第八十五题
+<img width="992" height="404" alt="image" src="https://github.com/user-attachments/assets/574762c8-d2d3-42b7-bee7-e4217e051495" />
+依旧背包问题 有了上一题的经验 这一题直接秒了 而且复杂度超越60% 算是对这类问题有所理解了
+
+总结一下 背包问题就是用一堆硬币组合成一个数 这种问题用单层的dp无法解决 因为涉及到重复选择单个硬币或者各种硬币的搭配 所以我们选择复杂度较高的类似于回溯法的二层dp 这样可以通过一层dp递推 一层dp回溯并且维护最小搭配数量（就是获得i-j这一个数的最小组合 然后+1次操作 写成函数就是相当于f(x-n)+n）
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp=[inf for _ in range(amount+1)]
+        dp[0]=0
+        coins.sort()
+        for i in range(1,amount+1):
+            for j in coins:
+                if j>i:
+                    break
+                dp[i]=min(dp[i],dp[i-j]+1)
+        print(dp)
+        return dp[amount] if dp[amount] !=inf else -1
+```
 
