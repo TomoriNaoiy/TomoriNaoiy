@@ -1673,3 +1673,26 @@ class Solution:
         return dp[amount] if dp[amount] !=inf else -1
 ```
 
+# 八十六题
+<img width="1032" height="900" alt="image" src="https://github.com/user-attachments/assets/27ef1fb7-7d0d-4e7b-adf7-35d8bbb96127" />
+这题依旧是背包问题 但是跟前面的有些区别  
+我的做法方向有些问题 我执着于用dp来拼接这个字符串  
+但是最后的结果是无法遍历每一个方法 也就是无法完全利用dp的递推特性  
+题解的做法是 dp做为一个节点 如果可以 这个节点就是True 也就是dp[index:i]里面的index  
+```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        wordDict=set(wordDict)
+        dp=[False for _ in range(len(s)+1)]
+        dp[0]=True
+        for i in range(1,len(s)+1):
+            for j in range(i):
+               if dp[j] and s[j:i] in wordDict:
+                    dp[i]=True
+                    break
+        print(dp)
+        return dp[len(s)]
+```
+总体做法依旧是两层循环 但是根据开头是否是True来判断接下来是否进行字典里面的单词判断 也就是利用dp的递推特性 实现了完全的遍历
+
+
