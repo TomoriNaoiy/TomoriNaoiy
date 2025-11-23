@@ -1697,4 +1697,23 @@ class Solution:
 ```
 总体做法依旧是两层循环 但是根据开头是否是True来判断接下来是否进行字典里面的单词判断 也就是利用dp的递推特性 实现了完全的遍历
 
+# 第八十七题
+<img width="985" height="842" alt="image" src="https://github.com/user-attachments/assets/98b1c5b3-c46a-4f06-a454-8be68afc40b0" />
+动态规划的一个新的类型 通过嵌套循环来完成dp的构建
+
+思路是 对于每一个元素遍历 分别做为起点 然后以这个点做为重点 从头遍历到这个点 期间如果有小于这个数的 就使用一次状态转移方程  
+这个时候可能会担心 那么有好多个点小于这个呢？怎么办  
+因为dp的不断维护最大值的关系 只会找到最长的那个序列
+然后结尾给dp[i]+1 这样就可以实现通过递推找到长值了
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp=[0 for _ in range(len(nums)+1)]
+        for i,v in enumerate(nums):
+            for j,c in enumerate(nums[:i]):
+                if v>c:
+                    dp[i]=max(dp[i],dp[j])
+            dp[i]+=1
+        return max(dp)
+```
 
