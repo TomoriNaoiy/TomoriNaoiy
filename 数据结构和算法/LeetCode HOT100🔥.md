@@ -1717,3 +1717,37 @@ class Solution:
         return max(dp)
 ```
 
+# 第八十八题
+<img width="1018" height="816" alt="image" src="https://github.com/user-attachments/assets/53084185-0771-4bd9-9d7e-111117d427d3" />
+最大累乘的积 第一眼可能会想用前缀积优化 但是有0就gg了 所以不可以
+
+这里依旧使用动态规划
+
+一开始可能想到使用f[i]=max(f[i-1]*v,v) 这确实没有问题 但是问题在于 其中有负数 如果把前面的负数跳过了 根据负负得正 很肯略掉最大的值 但是这个思路面对最大子数列和是完全可以通过的
+
+那么面对最大累积怎么办呢？
+
+设置两个dp数组 一个记录最大值 一个记录最小值 那么dp[i]=max(v,max[i-1]*v,min[i-1]*v)这样就好理解了 只是相比于前一个多了一个最小值而已 
+
+因为 负号最小 就是正的最大对吧
+
+```python
+class Solution:
+    def maxProduct(self, nums):
+        n = len(nums)
+        dp_max = [0] * n
+        dp_min = [0] * n
+
+        dp_max[0] = dp_min[0] = nums[0]
+        ans = nums[0]
+
+        for i in range(1, n):
+            x = nums[i]
+            dp_max[i] = max(x, dp_max[i - 1] * x, dp_min[i - 1] * x)
+            dp_min[i] = min(x, dp_max[i - 1] * x, dp_min[i - 1] * x)
+
+            ans = max(ans, dp_max[i])
+
+        return ans
+```
+
