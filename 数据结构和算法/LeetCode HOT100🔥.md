@@ -1773,5 +1773,28 @@ class Solution:
                 dp[j]=dp[j] or dp[j-v]
         return dp[s//2]
 ```
+# 第九十题
+<img width="1153" height="1002" alt="image" src="https://github.com/user-attachments/assets/949b2980-8064-4aa2-a6a8-8d9ff686e922" />
+虽然放在动态规划 但是用栈来解决比较快
+
+思路就是 遍历一遍 正常用栈来判断 但是栈中放的是索引 如果遍历完之后 是空的 说明完全匹配 直接max（i+1） 如果不是空的 说明前面或者中间有不匹配的 那就i-stack[i]
+
+为什么是最长呢 因为在遍历的过程中不断更新维护最值 有点贪心的意思了
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        ans=0
+        stack=[]
+        for i,v in enumerate(s):
+            if stack and s[stack[-1]]=="(" and v==")":
+                stack.pop()
+                if not stack:
+                    ans=max(ans,i+1)
+                else:
+                    ans=max(ans,i-stack[-1])
+            else:
+                stack.append(i)
+        return ans
+```
 
 
