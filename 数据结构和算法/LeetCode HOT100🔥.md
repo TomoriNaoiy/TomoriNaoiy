@@ -1750,4 +1750,28 @@ class Solution:
 
         return ans
 ```
+# 第八十九题
+<img width="1123" height="881" alt="image" src="https://github.com/user-attachments/assets/5c4a58eb-cebd-479d-9864-016beca1bffb" />
+非常有价值的一题 看起来非常没有思路 但是通过数学分析可知 如果能写成两个数组等和 说明这个数组和必须是偶数 也就是说 你需要找到一个数组和为一半的整和
+
+然后就可以化成0-1背包问题了 也是典型的动态规划 但是跟完全背包有一些差异 
+
+思路： 0-1背包 需要一个既定的值 因此dp涵盖的是所有值而非len（nums） 同样是双层循环的dp 0-1背包在第二层循环需要倒叙 而且范围是target到numi-1 倒叙的目的是 防止numi重复使用 比如如果numi是1 则正序遍历的花 从1到target全可以 但是0-1背包只能使用一次 所以从后往前遍历 同样是f（x-v）+v的标记思路 遍历完之后 看看需要的dp[target]是否为True
+
+而完全背包则是求取一个最大值或最小值 而且可以重复使用 因此dp[i]记录的是从j到i的最大值（维护）
+
+```python
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s=sum(nums)
+        if s%2!=0:
+            return False
+        dp=[False for _ in range(s//2+1)]
+        dp[0]=True
+        for i,v in enumerate(nums):
+            for j in range(s//2,v-1,-1):
+                dp[j]=dp[j] or dp[j-v]
+        return dp[s//2]
+```
+
 
