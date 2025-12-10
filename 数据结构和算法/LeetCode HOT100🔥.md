@@ -1797,4 +1797,26 @@ class Solution:
         return ans
 ```
 
+# 九一
+<img width="1113" height="1087" alt="image" src="https://github.com/user-attachments/assets/27fec15b-24fe-46de-9346-52c8d9f6abc5" />
+爬楼梯的二维版本 思路完全一样 但是可以引申到图论的路径条数问题
+```python
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        dp=[[0 for _ in range(n)] for _ in range(m)]
+        dp[0][0]=1
+        print(dp)
+        for i in range(m):
+            for j in range(n):
+                if i-1>=0:
+                    dp[i][j]+=dp[i-1][j]
+                if i+1<m:
+                    dp[i][j]+=dp[i+1][j]
+                if j+1<n:
+                    dp[i][j]+=dp[i][j+1]
+                if j-1>=0:
+                    dp[i][j]+=dp[i][j-1]
+        return dp[m-1][n-1]
+
+```
 
