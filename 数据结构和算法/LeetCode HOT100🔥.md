@@ -1889,4 +1889,21 @@ def longestCommonSubstring(text1: str, text2: str) -> int:
 
     return res
 ```
+# 九十五题
+<img width="1107" height="1065" alt="image" src="https://github.com/user-attachments/assets/0f0739d3-530f-438f-b595-9f0a211869e9" />
+模拟的动态规划 感觉很难 之后再读懂 现在只能勉强背下来
+```python
+class Solution:
+    def minDistance(self, s: str, t: str) -> int:
+        n, m = len(s), len(t)
+        f = [[0] * (m + 1) for _ in range(n + 1)]
+        f[0] = list(range(m + 1))
+        for i, x in enumerate(s):
+            f[i + 1][0] = i + 1
+            for j, y in enumerate(t):
+                f[i + 1][j + 1] = f[i][j] if x == y else min(f[i][j + 1], f[i + 1][j], f[i][j]) + 1
+        return f[n][m]
+
+
+```
 
