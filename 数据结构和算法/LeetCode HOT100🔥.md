@@ -1848,3 +1848,45 @@ class Solution:
                 a_l,a_r=l+1,r
         return s[a_l:a_r]
 ```
+
+# 第九十四 题
+<img width="1113" height="1017" alt="image" src="https://github.com/user-attachments/assets/190caa86-b660-41c8-9104-50d8cdd28d36" />
+**最长公共子序列**  
+区别于最长公共子串 这题是可以跳跃的 
+
+因此我们依旧使用经典的动态规划 使用二维dp 分别存储两个字符串的数据
+
+思路是 嵌套循环 如果当前两个字符相等 说明f[n][m]=f[n-1][m-1]+1 如果不相等 说明只能是取两个维度中前一个最大的那个（要么text2的上一个匹配 要么text1里面这个字符每一个匹配的）
+```python
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        dp=[[0 for _ in range(len(text2)+1)] for _ in range(len(text1)+1)]
+        for i in range(1,len(text1)+1):
+            for j in range(1,len(text2)+1):
+                dp[i][j]=dp[i-1][j-1]+1 if text1[i-1]==text2[j-1] else max(dp[i-1][j],dp[i][j-1])
+        return dp[len(text1)][len(text2)]
+```
+
+**最长公共子串**
+
+类型很想 但是一个可以跳 一个不能 所以这个更依赖于递推
+
+因此f[n][m]只跟f[n-1][m-1]有关系
+```python
+def longestCommonSubstring(text1: str, text2: str) -> int:
+    m, n = len(text1), len(text2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+    res = 0  # 记录最大长度
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i - 1] == text2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+                res = max(res, dp[i][j])
+            else:
+                dp[i][j] = 0
+
+    return res
+```
+
