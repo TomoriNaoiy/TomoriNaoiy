@@ -1906,4 +1906,14 @@ class Solution:
 
 
 ```
-
+# 九十六题
+<img width="1057" height="851" alt="image" src="https://github.com/user-attachments/assets/1ec986a4-1cab-4d61-8f68-feda5021f731" />
+好久以前见过的题 根本思路在于 0^任何数都是本身 1^任何数都是本身 相同的两个数异或一定是0 所以只需要用0^所有的数 最后得到的就是只出现一次的数
+```python
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        cs=0
+        for i in nums:
+            cs^=i
+        return cs
+```
