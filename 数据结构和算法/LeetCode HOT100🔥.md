@@ -1820,3 +1820,31 @@ class Solution:
 
 ```
 
+# 第九十三题
+<img width="983" height="797" alt="image" src="https://github.com/user-attachments/assets/1e26bf99-6bc5-47ab-af02-6100a09c6224" />
+依旧是一个回文 但是求的是最长序列 其实用dp并不好做 因为涉及到对称 
+
+我门这边直接使用一个中心扩散的方法（贪心） 因为回文的对称性 以每一个字母为中心 向两边扩散 找到每个字母的最大长度（但是要分成奇数偶数）
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        a_l,a_r=0,0
+        n=len(s)
+        for i in range(n):
+            r=l=i
+            while l>=0 and r<n and s[r]==s[l]:
+                r+=1
+                l-=1
+            if r-l-1>a_r-a_l:
+                a_l,a_r=l+1,r
+      
+        for i in range(n-1):
+            l=i
+            r=i+1
+            while l>=0 and r<n and s[r]==s[l]:
+                r+=1
+                l-=1
+            if r-l-1>a_r-a_l:
+                a_l,a_r=l+1,r
+        return s[a_l:a_r]
+```
