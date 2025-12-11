@@ -1799,7 +1799,9 @@ class Solution:
 
 # 九一
 <img width="1113" height="1087" alt="image" src="https://github.com/user-attachments/assets/27fec15b-24fe-46de-9346-52c8d9f6abc5" />
+
 爬楼梯的二维版本 思路完全一样 但是可以引申到图论的路径条数问题
+
 ```python
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
@@ -1821,7 +1823,9 @@ class Solution:
 ```
 
 # 第九十三题
+
 <img width="983" height="797" alt="image" src="https://github.com/user-attachments/assets/1e26bf99-6bc5-47ab-af02-6100a09c6224" />
+
 依旧是一个回文 但是求的是最长序列 其实用dp并不好做 因为涉及到对称 
 
 我门这边直接使用一个中心扩散的方法（贪心） 因为回文的对称性 以每一个字母为中心 向两边扩散 找到每个字母的最大长度（但是要分成奇数偶数）
@@ -1850,7 +1854,9 @@ class Solution:
 ```
 
 # 第九十四 题
+
 <img width="1113" height="1017" alt="image" src="https://github.com/user-attachments/assets/190caa86-b660-41c8-9104-50d8cdd28d36" />
+
 **最长公共子序列**  
 区别于最长公共子串 这题是可以跳跃的 
 
@@ -1890,8 +1896,11 @@ def longestCommonSubstring(text1: str, text2: str) -> int:
     return res
 ```
 # 九十五题
+
 <img width="1107" height="1065" alt="image" src="https://github.com/user-attachments/assets/0f0739d3-530f-438f-b595-9f0a211869e9" />
+
 模拟的动态规划 感觉很难 之后再读懂 现在只能勉强背下来
+
 ```python
 class Solution:
     def minDistance(self, s: str, t: str) -> int:
@@ -1906,9 +1915,12 @@ class Solution:
 
 
 ```
+
 # 九十六题
 <img width="1057" height="851" alt="image" src="https://github.com/user-attachments/assets/1ec986a4-1cab-4d61-8f68-feda5021f731" />
+
 好久以前见过的题 根本思路在于 0^任何数都是本身 1^任何数都是本身 相同的两个数异或一定是0 所以只需要用0^所有的数 最后得到的就是只出现一次的数
+
 ```python
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
@@ -1917,8 +1929,11 @@ class Solution:
             cs^=i
         return cs
 ```
+
 # 第一百题
+
 <img width="1080" height="907" alt="image" src="https://github.com/user-attachments/assets/7bb282be-5b8f-46c9-ab4b-348125997495" />
+
 最后一题 技巧题 主要是一个思路 两个指针 一快一慢 不断走 直到相遇 然后就可以找到环的起点 这题也是一样的思路 不断循环 由于重复出现的数是环的起点 因此我们以数为下标 不断走 最后重叠了就可以找到起点 也就是重复出现的数
 ```python
 class Solution:
