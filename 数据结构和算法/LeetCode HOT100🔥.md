@@ -1,6 +1,6 @@
 **算法的学习已经有一点点基础了 在大二开始前先试试能否完成力扣HOT100 提升算法能力！**
 
-
+**2025 12 11 首先恭喜自己终于完成了hot100（虽然拖了很久） 接下来就集中于刷题单了 继续加油!** 
 # 1. 两数之和 
 
 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
@@ -1916,4 +1916,23 @@ class Solution:
         for i in nums:
             cs^=i
         return cs
+```
+# 第一百题
+<img width="1080" height="907" alt="image" src="https://github.com/user-attachments/assets/7bb282be-5b8f-46c9-ab4b-348125997495" />
+最后一题 技巧题 主要是一个思路 两个指针 一快一慢 不断走 直到相遇 然后就可以找到环的起点 这题也是一样的思路 不断循环 由于重复出现的数是环的起点 因此我们以数为下标 不断走 最后重叠了就可以找到起点 也就是重复出现的数
+```python
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        slow=0
+        fast=0
+        while 1:
+            slow=nums[slow]
+            fast=nums[nums[fast]]
+            if slow==fast:
+                break
+        pr1,pr2=slow,0
+        while pr1!=pr2:
+            pr1=nums[pr1]
+            pr2=nums[pr2]
+        return pr1
 ```
