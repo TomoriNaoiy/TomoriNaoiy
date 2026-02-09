@@ -20,14 +20,14 @@
 ---
 # 完成的项目
 ## 计算机视觉
-- 🔭[**视频实时识别**]('https://github.com/TomoriNaoiy/TomoriNaoiy/tree/main/yolo%2Bweb%E5%AE%9E%E6%88%98')：
+- 🔭**视频实时识别**：<https://github.com/TomoriNaoiy/TomoriNaoiy/tree/main/yolo%2Bweb%E5%AE%9E%E6%88%98>
   - YOLOv8
   - flask
   - html+js+css
   - *轻量级web应用*
 ## LLM
 - ⚡**YUIS 出题系统（ing）**:
-   <https://github.com/TomoriNaoiy/TomoriNaoiy/tree/main/YUIS%20-%20%E5%89%AF%E6%9C%AC>
+   <https://github.com/TomoriNaoiy/YUIS-.git>
   - **Transformer**
   - **RAG**
   - Rerank
@@ -37,7 +37,7 @@
   - 后端: FASTAPI
   - 前端: HTML+js
 ## 有趣的小玩意儿（？
-- 🧩 [**魂斗罗**]("https://github.com/TomoriNaoiy/TomoriNaoiy/tree/main/%E9%AD%82%E6%96%97%E7%BD%97/%E9%AD%82%E6%96%97%E7%BD%97")：
+- 🧩 **魂斗罗**：<https://github.com/TomoriNaoiy/TomoriNaoiy/tree/main/%E9%AD%82%E6%96%97%E7%BD%97/%E9%AD%82%E6%96%97%E7%BD%97>
   - pygame做的动画小游戏
 
 ---
