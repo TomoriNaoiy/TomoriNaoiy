@@ -1,0 +1,24 @@
+# --- 核心 Web 框架 ---
+fastapi>=0.100.0
+uvicorn[standard]
+python-multipart
+jinja2
+aiofiles
+pydantic>=2.0.0
+pydantic-setting
+torch
+numpy
+transformers
+sentence-transformers
+bitsandbytes     
+accelerate         
+faiss-cpu
+FlagEmbedding
+openai
+requests
+httpx
+pymupdf         
+python-docx
+python-dotenv
+json_repair       
+DDGS

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你给资料我出卷 - YUIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #fdfbf7; /* 暖白色背景 */
+            color: #2d3748;
+        }
+        
+     
+       
+    .hero-section {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); 
+    border-radius: 24px;
+    position: relative; 
+}
+        /* 玻璃拟态卡片效果 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            transition: transform 0.2s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 按钮美化 - 糖果色 */
+        .btn-primary {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* 选项按钮 */
+        .option-card {
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: white;
+        }
+        .option-card:hover {
+            border-color: #b794f4;
+            background-color: #faf5ff;
+        }
+        .correct-choice { background-color: #f0fff4 !important; border-color: #48bb78 !important; color: #22543d; }
+        .wrong-choice { background-color: #fff5f5 !important; border-color: #f56565 !important; color: #742a2a; }
+
+        /* 自定义加载动画 */
+        .custom-loader {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            position: relative;
+            animation: rotate 1s linear infinite;
+        }
+        .custom-loader::before {
+            content: "";
+            box-sizing: border-box;
+            position: absolute;
+            inset: 0px;
+            border-radius: 50%;
+            border: 5px solid #FFF;
+            animation: prixClipFix 2s linear infinite;
+        }
+        @keyframes rotate { 100% {transform: rotate(360deg)} }
+        @keyframes prixClipFix {
+            0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+            25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+            50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+            75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+            100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <div class="lg:col-span-4 space-y-6">
+            
+            <div class="glass-card p-6 flex items-center gap-4">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-300 to-purple-400 overflow-hidden shadow-md flex items-center justify-center text-white text-2xl font-bold">
+                    <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">YUIS</h1>
+                    <p class="text-sm text-gray-500">拒绝没有卷子的期末考试~</p>
+                </div>
+            </div>
+
+            <div class="glass-card p-6">
+                <h2 class="font-bold text-gray-700 mb-4 flex items-center">
+                    <span class="bg-yellow-100 text-yellow-600 p-2 rounded-lg mr-2"><i class="fa-solid fa-book"></i></span>
+                    投喂学习资料
+                </h2>
+                
+                <div class="relative group">
+                    <input type="file" id="fileInput" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(this)">
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center group-hover:border-purple-400 group-hover:bg-purple-50 transition">
+                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-300 mb-2 group-hover:text-purple-400"></i>
+                        <p id="fileNameDisplay" class="text-sm text-gray-500">点击或拖拽上传<br>PDF / Word / TXT</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 mt-4">
+                    <button onclick="uploadFile()" class="flex-1 bg-gray-800 text-white py-2 rounded-xl text-sm hover:bg-black transition">
+                        开始学习
+                    </button>
+                    <button onclick="clearDatabase()" class="px-3 py-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition" title="清空记忆">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="glass-card p-6">
+                <h2 class="font-bold text-gray-700 mb-4 flex items-center">
+                    <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-2"><i class="fa-solid fa-sliders"></i></span>
+                    生成你的试卷
+                </h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 uppercase">本次出题重点</label>
+                        <input type="text" id="topic" value="全部内容" class="w-full mt-1 bg-gray-50 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-200 outline-none font-medium">
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div>
+                            <label class="text-xs text-gray-400">选择</label>
+                            <input type="number" id="choice_count" value="3" class="w-full mt-1 bg-gray-50 border-none rounded-xl p-2 text-center font-bold">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400">填空</label>
+                            <input type="number" id="fill_count" value="2" class="w-full mt-1 bg-gray-50 border-none rounded-xl p-2 text-center font-bold">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400">简答</label>
+                            <input type="number" id="short_count" value="1" class="w-full mt-1 bg-gray-50 border-none rounded-xl p-2 text-center font-bold">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between bg-gray-50 p-3 rounded-xl">
+                        <span class="text-sm text-gray-600">网络搜索补充</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="webSearch" checked class="sr-only peer">
+                            <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-600"></div>
+                        </label>
+                    </div>
+
+                    <button onclick="generateQuiz()" id="genBtn" class="btn-primary w-full py-4 text-lg font-bold shadow-lg">
+                        ✨ 生成试卷
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-center text-xs text-gray-400 mt-8">
+                <p>Make by TomoriNaoiy</p>
+                </div>
+
+        </div>
+
+        <div class="lg:col-span-8 h-full flex flex-col">
+            
+            <div id="welcomeState" class="hero-section flex-1 flex flex-col items-center justify-center p-6 text-center text-slate-700 overflow-hidden">
+    
+                <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-white opacity-40 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+                
+                <div class="relative z-10 flex flex-col items-center">
+                    
+                    <img src="/static/elain.png" 
+                        alt="Welcome Image" 
+                        class="h-64 w-auto object-contain mx-auto mb-6 rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300">
+        
+        <div class="bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-white/50 max-w-sm w-full">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">准备好复习了吗？</h2>
+            <p class="text-gray-600 text-sm">
+                左侧投喂资料，右侧生成考题。<br>
+                <span class="text-purple-500 font-bold">Elain</span> 陪你一起学习！
+            </p>
+        </div>
+    </div>
+</div>
+
+            <div id="loadingState" class="hidden flex-1 flex flex-col items-center justify-center bg-white rounded-3xl shadow-sm border border-gray-100 p-10">
+                <div class="custom-loader bg-gradient-to-r from-purple-400 to-blue-400 mb-6"></div>
+                <h3 class="text-2xl font-bold text-gray-800 animate-pulse">正在整理考点...</h3>
+                <p class="text-gray-500 mt-2 text-center max-w-md">正在阅读你的笔记，并结合网络知识点为您准备试题。</p>
+                <p class="text-sm text-purple-400 mt-8 font-medium">“已经在手脚并用地干活惹！”</p>
+            </div>
+
+            <div id="quizContainer" class="hidden space-y-6 pb-20">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "/api";
+
+        function handleFileSelect(input) {
+            const fileName = input.files[0] ? input.files[0].name : "点击或拖拽上传";
+            document.getElementById('fileNameDisplay').innerText = fileName;
+        }
+
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files[0]) return alert("请先选择一份学习资料哦~");
+            
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `正在阅读...`;
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: formData });
+                const data = await res.json();
+                alert(`📖 资料《${data.filename}》已存入大脑！`);
+            } catch (e) {
+                alert("上传出错了，请重试");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        async function clearDatabase() {
+            if(!confirm("确定要清空现在的学习记忆吗？")) return;
+            try {
+                await fetch(`${API_BASE}/reset_knowledge_base`, { method: 'POST' });
+                alert("🗑️ 记忆已清空，请投喂新资料");
+                location.reload();
+            } catch (e) { alert("清理失败"); }
+        }
+
+        async function generateQuiz() {
+            // UI 切换
+            document.getElementById('welcomeState').classList.add('hidden');
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('loadingState').classList.remove('hidden');
+
+            const payload = {
+                topic: document.getElementById('topic').value,
+                choice_count: parseInt(document.getElementById('choice_count').value),
+                fill_blank_count: parseInt(document.getElementById('fill_count').value),
+                short_answer_count: parseInt(document.getElementById('short_count').value),
+                include_web_search: document.getElementById('webSearch').checked
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/generate_quiz`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+
+                if (result.error) {
+                    alert(result.error);
+                } else {
+                    renderQuiz(result.data.quiz);
+                }
+            } catch (e) {
+                alert("生成遇到一点小问题，请重试");
+            } finally {
+                document.getElementById('loadingState').classList.add('hidden');
+            }
+        }
+
+        function renderQuiz(quizList) {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = "";
+            container.classList.remove('hidden');
+
+            quizList.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = "glass-card p-8 fade-in";
+                
+                // 渲染题型标签
+                let badgeClass = "bg-blue-100 text-blue-600";
+                let typeName = "单选题";
+                if(q.type === 'fill_blank') { badgeClass = "bg-orange-100 text-orange-600"; typeName = "填空题"; }
+                if(q.type === 'short_answer') { badgeClass = "bg-green-100 text-green-600"; typeName = "简答题"; }
+
+                let contentHtml = "";
+                
+                // 选择题逻辑
+                if (q.type === 'choice') {
+                    let opts = Array.isArray(q.options) ? q.options : [];
+                    contentHtml += `<div class="grid gap-3 mt-4">`;
+                    opts.forEach(opt => {
+                        const safeOpt = opt.replace(/'/g, "&apos;");
+                        contentHtml += `
+                            <div onclick="checkChoice(this, '${q.answer}', 'analysis-${q.id}')" 
+                                 class="option-card p-4 rounded-xl text-gray-700 font-medium">
+                                ${safeOpt}
+                            </div>`;
+                    });
+                    contentHtml += `</div>`;
+                } else {
+                    // 填空/简答逻辑
+                    contentHtml = `
+                        <div class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <textarea class="w-full bg-transparent border-none focus:ring-0 text-gray-700" rows="2" placeholder="在此输入你的想法..."></textarea>
+                        </div>
+                        <button onclick="toggleAnalysis('analysis-${q.id}')" class="mt-3 text-sm text-purple-600 font-bold hover:underline">
+                            💡 看答案
+                        </button>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs font-bold ${badgeClass} px-3 py-1 rounded-full">${typeName}</span>
+                        <span class="text-gray-300 font-mono text-xl opacity-50">0${index+1}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 leading-relaxed mb-2">${q.question}</h3>
+                    
+                    ${contentHtml}
+
+                    <div id="analysis-${q.id}" class="hidden mt-6 pt-6 border-t border-gray-100">
+                        <div class="bg-green-50 p-4 rounded-xl border border-green-100">
+                            <p class="text-green-800 font-bold mb-1">参考答案：${q.answer}</p>
+                            <p class="text-sm text-green-700 opacity-80">${q.analysis}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function checkChoice(el, answer, analysisId) {
+            // 简单的包含判断
+            const text = el.innerText.trim();
+            const isCorrect = text.startsWith(answer) || text.includes(answer);
+            
+            if(isCorrect) {
+                el.classList.add('correct-choice');
+            } else {
+                el.classList.add('wrong-choice');
+            }
+            document.getElementById(analysisId).classList.remove('hidden');
+        }
+
+        function toggleAnalysis(id) {
+            document.getElementById(id).classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>

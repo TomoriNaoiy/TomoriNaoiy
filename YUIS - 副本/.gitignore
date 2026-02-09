@@ -1,0 +1,26 @@
+# --- 1. 屏蔽机密文件 (绝对不能上传!) ---
+.env
+.env.local
+config.py
+secrets.py
+key.pem
+
+# --- 2. 屏蔽 Python 产生的垃圾 (不需要上传) ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# --- 3. 屏蔽本地数据 (知识库、临时文件、用户上传) ---
+# 向量库数据 (太大了，且包含隐私)
+faiss_store/
+faiss_index/
+*.faiss
+*.pkl
+.idea/
+.vscode/
+*.swp
