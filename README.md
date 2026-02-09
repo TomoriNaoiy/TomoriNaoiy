@@ -26,9 +26,13 @@
   - html+js+css
   - *轻量级web应用*
 ## LLM
-- ⚡**语言问答系统（ing）**:
+- ⚡**YUIS 出题系统（ing）**:
+   <https://github.com/TomoriNaoiy/TomoriNaoiy/tree/main/YUIS%20-%20%E5%89%AF%E6%9C%AC>
   - **Transformer**
-  - 多模态输入（图像、语音）
+  - **RAG**
+  - Rerank
+  - 多模态输入（图像、word、textt）
+  - 异步并发
   - LLM Agent 调度
   - 后端: FASTAPI
   - 前端: HTML+js
