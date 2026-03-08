@@ -3,13 +3,13 @@
 
 **关于我**
 - 🐍 「我的Python可是突破天际的啊~」
-- 💻 后端工程师 flask FASTAPI && SQL
+- 💻 后端工程师 FASTAPI && SQL
 - 🧠 主修人工智能 在深度学习的领域挣扎
 - 💫 算法小白（这是我能碰瓷的吗？😢
 ---
 - ✉️邮箱： **2303602552@qq.com**  
 - 🛰️力扣： **Deception.**  
-
+- 💻博客： **https://tomorinaoiy.github.io/**
 ---
 *已经完成的课程*
 - **CS231N** 
@@ -26,7 +26,7 @@
   - html+js+css
   - *轻量级web应用*
 ## LLM
-- ⚡**YUIS 出题系统（ing）**:
+- ⚡**YUIS 出题系统**:
    <https://github.com/TomoriNaoiy/YUIS-.git>
   - **Transformer**
   - **RAG**
@@ -41,6 +41,6 @@
   - pygame做的动画小游戏
 
 ---
-⚔️ ## **正在研究 深度学习**
+⚔️  **正在研究 深度学习**
 
-# “成为压倒性的第一.”
+## “成为压倒性的第一.”
